@@ -1,0 +1,79 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+.bg-image {
+  background-image: url('./images/img.png');
+  background-size: cover;
+  background-position: center;
+  width: 50%;
+  height: 100vh;
+}
+
+.center-image {
+  position: absolute;
+  background-image: url('./images/logo.png');  /* Logo image */
+  top: 30%;  /* Center vertically */
+  left: 10%;  /* Adjust left offset */
+  transform: translateY(-50%);  /* Perfectly center the logo vertically */
+  width: 200px;  /* Set the width of the logo */
+  height: 200px;  /* Set the height of the logo */
+  background-size: contain;  /* Make sure the image is scaled correctly */
+  background-repeat: no-repeat;  /* Ensure the background doesn't repeat */
+}
+
+.center-image h1 {
+  margin-top: 100px;  /* Add space between the logo and the heading */
+  font-size: 24px;  /* Adjust the font size */
+  color: black;  /* Text color */
+  text-align: center;  /* Center the text */
+  white-space: nowrap; /* Prevents text from breaking into multiple lines */
+  /*overflow: hidden; /* Optional: hides any overflowed text */
+  text-overflow: ellipsis; /* Optional: adds ellipsis if text overflows */
+  margin-left: -70px;
+}
+
+.sub-heading {
+  font-size: 18px; /* Adjust text size */
+  color: black;
+  text-align: left;
+  margin-top: 50px; /* Space between heading and sub-heading */
+  max-width: fit-content; /* Match width to heading */
+  width: 100%; /* Ensures text breaks evenly */
+  white-space: nowrap;
+  margin-left: -70px;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
