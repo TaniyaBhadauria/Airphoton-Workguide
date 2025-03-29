@@ -33,7 +33,7 @@ const VersionTable: React.FC = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "http://127.0.0.1:5000/api/commits?repo_owner=TaniyaBhadauria&repo_name=apps-wi&token=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"
+          "http://127.0.0.1:5000/api/commits?repo_owner=TaniyaBhadauria&repo_name=apps-wi"
         );
         const data: CommitData[] = await response.json();
 

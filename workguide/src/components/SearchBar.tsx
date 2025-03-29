@@ -19,7 +19,7 @@ export function SearchBar() {
 
   useEffect(() => {
       // Fetch categories from the API
-      fetch("http://127.0.0.1:5000/get_directories?repo_owner=TaniyaBhadauria&repo_name=apps-wi&token=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")
+      fetch("http://127.0.0.1:5000/get_directories?repo_owner=TaniyaBhadauria&repo_name=apps-wi")
         .then((response) => response.json())
         .then((data) => {
           if (Array.isArray(data)) {
@@ -33,7 +33,7 @@ export function SearchBar() {
 
   useEffect(() => {
       // Fetch item codes from Flask API
-      fetch("http://127.0.0.1:5000/get_item_codes?repo_owner=TaniyaBhadauria&repo_name=apps-wi&token=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")
+      fetch("http://127.0.0.1:5000/get_item_codes")
         .then((response) => response.json())
         .then((data) => {
           if (Array.isArray(data)) {
