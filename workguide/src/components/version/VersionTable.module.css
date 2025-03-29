@@ -1,0 +1,227 @@
+.versionTable {
+  color: #3d3d3d;
+  width: 100%;
+  margin-top: 72px;
+  margin-left: 10px;
+  font-family: Inter, -apple-system, Roboto, Helvetica, sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  border-collapse: collapse;
+}
+
+.header {
+  background-color: #eef1f4;
+  border: 1px solid #eef1f4;
+  padding: 6px 12px;
+  font-weight: 700;
+  text-align: left;
+  min-height: 40px;
+}
+
+.cell {
+  background-color: #fff;
+  border: 1px solid #eef1f4;
+  padding: 6px 12px;
+  min-height: 40px;
+}
+
+.actionCell {
+  composes: cell;
+  text-align: right;
+}
+
+.compareLink {
+  color: inherit;
+  text-decoration: underline;
+}
+
+@media (width <= 991px) {
+  .versionTable {
+    margin-top: 40px;
+  }
+}
+
+/* Background Blur Effect */
+ .backgroundBlur {
+   filter: blur(4px); /* Apply blur to the background */
+   pointer-events: none; /* Disable interaction with the blurred background */
+ }
+
+ /* The popup overlay style */
+ .popup {
+   position: fixed;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   background: white;
+   padding: 20px;
+   border-radius: 10px;
+   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+   z-index: 1000;
+   width: 60%;
+   max-height: 80vh;
+   overflow-y: auto;
+ }
+  .popupcard {
+   position: fixed;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   background: white;
+   padding: 20px;
+   border-radius: 10px;
+   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+   z-index: 1000;
+   width: 60%;
+   max-height: 80vh;
+   overflow-y: auto;
+ }
+
+ /* Card for displaying file name and "View Changes" button */
+ .card {
+   background-color: #fff;
+   border: 1px solid #ddd;
+   border-radius: 10px;
+   padding: 20px;
+   max-width: 80%;
+   margin: 20px auto;
+   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+   display: flex;
+   flex-direction: column;
+ }
+
+ .card h3 {
+   font-size: 1.5rem;
+   margin-bottom: 15px;
+   color: #333;
+ }
+
+ .card ul {
+   list-style-type: none;
+   padding-left: 0;
+ }
+
+ .card li {
+   margin: 10px 0;
+   font-size: 1rem;
+   color: #555;
+ }
+
+ .viewChangesButton {
+   background-color: #007bff;
+   color: white;
+   border: none;
+   padding: 5px 10px;
+   border-radius: 5px;
+   cursor: pointer;
+   font-size: 0.9rem;
+   margin-left: 10px;
+ }
+
+ .viewChangesButton:hover {
+   background-color: #0056b3;
+ }
+
+ /* Popup for actual file changes */
+ .popupContent {
+   display: flex;
+   flex-direction: column;
+   align-items: flex-start;
+ }
+
+ .diffBox {
+   background-color: #f5f5f5;
+   padding: 10px;
+   border-radius: 5px;
+   width: 100%;
+   white-space: pre-wrap;
+   word-wrap: break-word;
+   font-family: monospace;
+ }
+
+ .closeButton {
+   margin-top: 10px;
+   padding: 8px 12px;
+   background-color: #ff4d4d;
+   color: white;
+   border: none;
+   border-radius: 5px;
+   cursor: pointer;
+ }
+
+ .closeButton:hover {
+   background-color: #cc0000;
+ }
+
+ .popupcard {
+   background-color: white;
+   padding: 20px;
+   border-radius: 10px;
+   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 999;  /* Make sure it stays on top */
+   max-width: 80%;
+   margin: 0 auto;
+   filter: none; /* Ensure the popup is not blurred */
+      pointer-events: auto; /* Allow interaction with the popup */
+ }
+
+ .popupContent {
+   display: flex;
+   flex-direction: column;
+   align-items: flex-start;
+ }
+
+ .fileList {
+   display: grid;
+   grid-template-columns: 1fr 1fr; /* Two columns: one for filename, one for button */
+   gap: 15px;
+   width: 100%;
+ }
+
+ .fileRow {
+   display: grid;
+   grid-template-columns: 1fr 150px; /* File name takes full width, button takes 150px */
+   gap: 10px;
+   align-items: center;
+ }
+
+ .fileName {
+   font-size: 1rem;
+   color: #333;
+ }
+
+ .viewButton {
+   display: flex;
+   justify-content: flex-start;
+ }
+
+ .viewChangesButton {
+   background-color: #007bff;
+   color: white;
+   border: none;
+   padding: 5px 10px;
+   border-radius: 5px;
+   cursor: pointer;
+   font-size: 0.9rem;
+ }
+
+ .viewChangesButton:hover {
+   background-color: #0056b3;
+ }
+
+ .closeButton {
+   background-color: #ff4d4d;
+   color: white;
+   border: none;
+   padding: 8px 12px;
+   border-radius: 5px;
+   cursor: pointer;
+   margin-top: 15px;
+   align-self: flex-end;
+ }
+
+ .closeButton:hover {
+   background-color: #cc0000;
+ }
+
+

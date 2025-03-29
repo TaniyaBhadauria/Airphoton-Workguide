@@ -1,0 +1,121 @@
+.container {
+  background-color: #fefcfc;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.header {
+  background-color: #fff;
+  border-bottom: 1px solid #000;
+  justify-content: space-between;
+  align-items: center;
+  height: 50px;
+  padding: 7px 20px;
+  display: flex;
+}
+
+.logo {
+  width: 150px;
+  height: 40px;
+}
+
+.userControls {
+  align-items: center;
+  gap: 32px;
+  display: flex;
+}
+
+.controlItem {
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  display: flex;
+}
+
+.controlLabel {
+  color: #000;
+  font-family: Poppins, sans-serif;
+  font-size: 16px;
+}
+
+.navigationBar {
+  background-color: #98282824;
+  height: 50px;
+}
+
+.navigationContent {
+  align-items: center;
+  height: 100%;
+  padding: 0 20px;
+  display: flex;
+}
+
+.menuItems {
+  align-items: center;
+  gap: 40px;
+  margin-left: 56px;
+  display: flex;
+}
+
+.menuLink {
+  color: #848383;
+  font-family: Poppins, sans-serif;
+  font-size: 16px;
+  text-decoration: none;
+}
+
+
+.heroImage {
+  position: relative; /* Ensures absolute children stay within this container */
+
+  background: url(https://cdn.builder.io/api/v1/image/assets/TEMP/8812aba537d90e084660aa4fe1fb1fad3110134f) center / cover no-repeat;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center; /* Keeps content inside vertically aligned */
+  justify-content: center; /* Centers horizontally, adjust if needed */
+}
+
+@media (max-width: 991px) {
+  .userControls {
+    gap: 20px;
+  }
+
+  .controlLabel {
+    font-size: 20px;
+  }
+
+  .menuItems {
+    gap: 20px;
+  }
+}
+
+@media (max-width: 640px) {
+  .header {
+    height: 80px;
+    padding: 10px;
+  }
+
+  .logo {
+    width: 150px;
+    height: auto;
+  }
+
+  .userControls {
+    display: none;
+  }
+
+  .menuItems {
+    display: none;
+  }
+}
+
+.libHeading {
+  position: absolute;
+  top: 5%; /* Moves it down */
+  left: 10%; /* Adjust horizontal position */
+  transform: translateY(-50%); /* Centers it vertically */
+  font-family: Poppins, sans-serif;
+  font-size: 16px;
+  text-align: left;
+}

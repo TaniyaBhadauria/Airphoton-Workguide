@@ -1,25 +1,29 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import TwoColumnLayout from './TwoColumnLayout';
+import { Provider } from "react-redux";
+import  InputDesign  from './components/InputDesign'
+import  Instructions  from './components/instructions/Instructions'
+import  ChangeLog  from './components/ChangeLog'
+import  CreateAccount  from './CreateAccount'
+import  UserProfile  from './components/userProfile/UserProfile'
+import { store } from "./redux/store";;
 
-function App() {
+const App: React.FC = () => {
   return (
-    <div className="App flex h-screen">
-      {/* Left Side - Background Image */}
-      <div className="hidden md:flex bg-image">
-      <div className="center-image" >
-      <h1>Welcome to AirPhoton WorkGuide</h1>
-      <div className="sub-heading">
-                  AirPhoton WorkGuide is a smart content management system <br />
-                   designed to streamline
-                   work instructions, enhance documentation <br />
-                  accuracy, and improve efficiency.
-                </div>
-      </div>
-      </div>
-
-    </div>
+    <Router>
+        <Provider store={store}>
+        <Routes>
+          <Route path="/" element={<TwoColumnLayout />} />
+          <Route path="/create" element={<CreateAccount />} />
+           <Route path="/lib" element={<InputDesign />} />
+           <Route path="/user" element={<UserProfile />} />
+           <Route path="/versions" element={<ChangeLog />} />
+           <Route path="/instructions" element={<Instructions />} />
+        </Routes>
+        </Provider>
+    </Router>
   );
-}
+};
 
 export default App;

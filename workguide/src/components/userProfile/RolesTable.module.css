@@ -1,0 +1,49 @@
+.tableContainer {
+  color: #3d3d3d;
+  margin-top: 139px;
+  font-family:
+    Inter,
+    -apple-system,
+    Roboto,
+    Helvetica,
+    sans-serif;
+}
+
+.rolesTable {
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 90%;
+}
+
+.header {
+  background-color: #eef1f4;
+  border-color: #eef1f4;
+  border-top-width: 1px;
+  border-left-width: 1px;
+  padding: 6px 12px;
+  text-align: left;
+  font-weight: 700;
+  min-height: 40px;
+}
+
+.cell {
+  background-color: #fff;
+  border-color: #eef1f4;
+  border-top-width: 1px;
+  border-left-width: 1px;
+  padding: 6px 12px;
+  min-height: 40px;
+}
+
+.cellRequest {
+  composes: cell;
+  text-align: right;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+@media (width <= 991px) {
+  .tableContainer {
+    margin-top: 40px;
+  }
+}

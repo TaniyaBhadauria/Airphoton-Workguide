@@ -1,0 +1,153 @@
+.loginFormSection {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  margin: auto;
+  margin-left: 40px;
+}
+
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  width: 473px;
+  max-width: 100%;
+}
+
+.header {
+  font-family: Poppins, -apple-system, Roboto, Helvetica, sans-serif;
+  width: 100%;
+}
+
+.title {
+  color: #333;
+  font-size: 32px;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  color: #666;
+  font-size: 20px;
+  font-weight: 400;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.signupText {
+  color: #333;
+}
+
+.signupButton {
+  background: none;
+  border: none;
+  color: #111;
+  font-weight: 700;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 0;
+}
+
+.form {
+  width: 100%;
+  margin-top: 32px;
+}
+
+.rememberMe {
+  margin-top: 32px;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.checkbox {
+  background-color: #2c2c2c;
+  border-radius: 4px;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.checkboxIcon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+}
+
+.checkboxText {
+  color: #1e1e1e;
+  font-family: Inter, -apple-system, Roboto, Helvetica, sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.submitButton {
+  background-color: #111;
+  color: #fff;
+  border: none;
+  border-radius: 32px;
+  width: 100%;
+  max-width: 317px;
+  padding: 16px 32px;
+  font-family: Poppins, -apple-system, Roboto, Helvetica, sans-serif;
+  font-size: 22px;
+  font-weight: 500;
+  margin-top: 32px;
+  cursor: pointer;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  width: 100%;
+  margin-top: 24px;
+}
+
+.line {
+  border-top: 1px solid #0d0707;
+  flex: 1;
+  height: 3px;
+}
+
+.orText {
+  color: #0d0707;
+  font-family: Inter, -apple-system, Roboto, Helvetica, sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.socialLogin {
+  width: 100%;
+  margin-top: 59px;
+}
+
+.socialLoginImage {
+  width: 100%;
+  aspect-ratio: 7.3;
+  object-fit: contain;
+}
+
+@media (width <= 991px) {
+  .submitButton {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .socialLogin {
+    margin-top: 40px;
+  }
+
+  .socialLoginImage {
+    max-width: 100%;
+  }
+}

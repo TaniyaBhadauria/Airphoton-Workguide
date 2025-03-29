@@ -1,0 +1,225 @@
+
+.container {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 30px;
+}
+
+.breadcrumb {
+  margin-bottom: 2rem;
+}
+
+.breadcrumbList {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.breadcrumbItem {
+  color: #000;
+  font-size: 16px;
+}
+
+.mainTitle {
+  margin-bottom: 2rem;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.progressSection {
+  margin-top: 2rem;
+}
+
+.progressTracker {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.progressCircleComplete {
+  color: #fff;
+  background-color: #3b82f6;
+  border-radius: 9999px;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.progressCircleActive {
+  color: #fff;
+  background-color: black;
+  border-radius: 9999px;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.progressCircleInactive {
+  color: #fff;
+  background-color: #6b7280;
+  border-radius: 9999px;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.progressBarActive {
+  background-color: #3b82f6;
+  border-radius: 0.25rem;
+  width: 300px;
+  height: 0.5rem;
+}
+
+.progressBarInactive {
+  background-color: #6b7280;
+  border-radius: 0.25rem;
+  width: 300px;
+  height: 0.5rem;
+}
+
+.progressText {
+  color: #6b7280;
+  margin-bottom: 1rem;
+}
+
+.stepHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.stepTitle {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.completionCheck {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.checkbox {
+  width: 1rem;
+  height: 1rem;
+}
+
+.checkboxLabel {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+
+.contentGrid {
+  display: grid;
+  grid-template-columns: 1fr; /* Adjust for multiple columns if needed */
+  gap: 20px; /* Adjust the space between items */
+  width: 80%; /* Adjust the width as necessary */
+  margin: 0 auto; /* Center the grid */
+  padding-top: 20px; /* Add padding to prevent overlap with header */
+  box-sizing: border-box; /* Prevent overflow issues */
+  margin-top: -40px;
+}
+
+.contentCard {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1800px;
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
+  backgroundColor: "rgba(255, 255, 255, 5)";
+  border-radius: 8px; /* Optional: for rounded corners */
+  min-height: 300px; /* Ensures card has enough space */
+  position: relative; /* Prevent overlap */
+  overflow: hidden; /* Prevent overflow of content */
+}
+.cardGrid {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 15px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.galleryContainer {
+  position: relative;
+}
+
+.mainImageContainer {
+  margin-bottom: 1rem;
+}
+
+.mainImage {
+  width: 100%;
+  height: 250px;
+  border-radius: 0.5rem;
+}
+
+.thumbnailGrid {
+  display: flex;
+  gap: 1rem;
+}
+
+.thumbnail {
+  width: 6rem;
+  height: 6rem;
+  border-radius: 0.25rem;
+}
+
+.instructionsContainer {
+  row-gap: 1rem;
+}
+
+.instructionsList {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  row-gap: 1rem;
+}
+
+.instructionItem {
+  color: #374151;
+  margin-bottom: 0.5rem;
+}
+
+.navigationButtons {
+  display: flex;
+  justify-content: space-evenly;
+  margin-right: 0rem;
+  margin-bottom: 5rem;
+}
+
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 2rem;
+}
+
+.button {
+  color: #fff;
+  background-color: #000;
+  border-radius: 0.25rem;
+  padding: 0.3rem 1.5rem;
+}
+
+@media (max-width: 991px) {
+  .contentGrid {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+
+  .cardGrid {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+}

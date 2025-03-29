@@ -1,0 +1,67 @@
+.inputContainer {
+  width: 100%;
+  margin-top: 24px;
+}
+
+.labelRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.label {
+  color: #666;
+  font-size: 16px;
+  font-family: Poppins, -apple-system, Roboto, Helvetica, sans-serif;
+  padding: 2px;
+}
+
+.togglePassword {
+  color: #666;
+  text-align: right;
+  font-size: 18px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: Poppins, -apple-system, Roboto, Helvetica, sans-serif;
+}
+
+.input {
+  border: 1px solid #66666659;
+  border-radius: 12px;
+  width: 100%;
+  min-height: 56px;
+  margin-top: 4px;
+  padding: 0 16px;
+  font-family: Poppins, -apple-system, Roboto, Helvetica, sans-serif;
+}
+
+.select {
+  border: 1px solid #66666659;
+  border-radius: 12px;
+  width: 100%;
+  min-height: 56px;
+  margin-top: 4px;
+  padding: 0 16px;
+  font-family: Poppins, -apple-system, Roboto, Helvetica, sans-serif;
+  font-size: 16px;
+  background: white;
+  color: #333;
+  cursor: pointer;
+}
+
+.select:focus {
+  border-color: #333;
+  outline: none;
+}
+
+.select option {
+  padding: 10px;
+}
+
+@media (width <= 991px) {
+  .input {
+    max-width: 100%;
+  }
+}

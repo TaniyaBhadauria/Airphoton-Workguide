@@ -1,0 +1,23 @@
+@media (min-width: 768px) {
+  .h-md-100 {
+    height: 100vh;
+  }
+  .col-md-6 {
+  width:40%}
+}
+
+.btn-round {
+  border-radius: 30px;
+}
+
+.bg-image {
+ background-image: url('./components/images/img.png');
+}
+
+.text-cyan {
+  color: #35bdff;
+}
+
+.input-spacing {
+  margin-bottom: 20px;
+}

@@ -1,0 +1,49 @@
+.menuItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 10px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+  color: inherit;
+}
+
+.menuItem:hover {
+  background: #f0f0f0; /* Light gray background */
+  color: #007bff; /* Change text color to blue */
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.icon {
+  aspect-ratio: 1;
+  object-fit: contain;
+  object-position: center;
+  width: 30px;
+  flex-shrink: 0;
+}
+
+.arrow {
+  aspect-ratio: 1;
+  object-fit: contain;
+  object-position: center;
+  width: 24px;
+  flex-shrink: 0;
+}
+
+.active {
+  background-color: #dbedff;
+}
+
+.label {
+  margin-top: auto;
+  margin-bottom: auto;
+}
