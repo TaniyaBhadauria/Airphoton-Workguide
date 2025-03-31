@@ -17,7 +17,6 @@ cryptography==42.0.8
 dataclasses-json==0.6.7
 dbus-python==1.2.18
 distro==1.7.0
-distro-info==1.1+ubuntu0.2
 dnspython==2.7.0
 docutils==0.17.1
 email_validator==2.2.0
