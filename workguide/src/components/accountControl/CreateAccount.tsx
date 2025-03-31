@@ -35,7 +35,7 @@ export const CreateAccountForm: React.FC = () => {
         base64ProfilePic = reader.result?.toString().split(",")[1] || "";
       }
 
-      const response = await fetch("http://127.0.0.1:5000/api/users", {
+      const response = await fetch("https://airphoton-workguide.onrender.com/api/users", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password, role, email, profilepic: base64ProfilePic }),

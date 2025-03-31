@@ -22,7 +22,7 @@ const VersionTable: React.FC = () => {
   useEffect(() => {
     const fetchFeedback = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:5000/api/feedback");
+        const response = await fetch("https://airphoton-workguide.onrender.com/api/feedback");
         const data: FeedbackData[] = await response.json();
 
         setTableData(data);
@@ -53,7 +53,7 @@ const VersionTable: React.FC = () => {
 
   const handleResolve = async (comment: string) => {
     try {
-      const response = await fetch("http://127.0.0.1:5000/update_feedback_status", {
+      const response = await fetch("https://airphoton-workguide.onrender.com/update_feedback_status", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -18,7 +18,7 @@ const InstallationGuide: React.FC = () => {
     );
   React.useEffect(() => {
       if (itemCode) {
-          fetch(`http://127.0.0.1:5000/instructions?item_code=${itemCode}`)
+          fetch(`https://airphoton-workguide.onrender.com/instructions?item_code=${itemCode}`)
           .then((res) => res.json())
           .then((data) => {
               const BASE_URL = "https://raw.githubusercontent.com/TaniyaBhadauria/apps-wi/master/";

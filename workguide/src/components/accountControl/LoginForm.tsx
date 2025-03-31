@@ -23,7 +23,7 @@ export const LoginForm: React.FC = () => {
 
     try {
       // Fetch the data from the backend and await the response
-      const response = await fetch(`http://localhost:5000/get_user?username=${username}&password=${password}`, {
+      const response = await fetch(`https://airphoton-workguide.onrender.com/get_user?username=${username}&password=${password}`, {
         method: "GET",
       });
 

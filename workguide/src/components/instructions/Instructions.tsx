@@ -10,7 +10,7 @@ const Instructions: React.FC = () => {
     const itemCode = useSelector((state: RootState) => state.itemCode.itemCode);
   const handleDownload = async () => {
     try {
-      const response = await fetch(`http://127.0.0.1:5000/download_instructions?item_code=${itemCode}`);
+      const response = await fetch(`https://airphoton-workguide.onrender.com/download_instructions?item_code=${itemCode}`);
 
       if (!response.ok) {
         throw new Error("Failed to download instructions");
