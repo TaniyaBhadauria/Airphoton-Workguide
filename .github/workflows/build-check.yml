@@ -1,0 +1,29 @@
+name: Build Check
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Setup Node.js and Install Dependencies
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18  # Adjust to match your project
+
+      - name: Install Node.js dependencies
+        run: npm install
+
+      - name: Run build (optional)
+        run: npm run build  # Remove if no build step in frontend
