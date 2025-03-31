@@ -91,7 +91,6 @@ SQLAlchemy==2.0.40
 sqlitecloud==0.0.83
 starlette==0.46.1
 swagger-ui-py==23.9.23
-systemd-python==234
 typing-inspect==0.9.0
 typing-inspection==0.4.0
 typing_extensions==4.12.2
