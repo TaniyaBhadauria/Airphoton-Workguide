@@ -23,7 +23,7 @@ jobs:
           node-version: 18  # Adjust to match your project
 
       - name: Install Node.js dependencies
-        run: npm install
+        run: npm install --force
         working-directory: workguide  # Set working directory
 
       - name: Run build (optional)
