@@ -15,7 +15,7 @@ export function SearchBar() {
 
   useEffect(() => {
       // Fetch categories from the API
-      fetch("https://airphoton-workguide.onrender.com/get_directories?repo_owner=TaniyaBhadauria&repo_name=apps-wi")
+      fetch("http://18.212.21.75:5000/get_directories?repo_owner=TaniyaBhadauria&repo_name=apps-wi")
         .then((response) => response.json())
         .then((data) => {
           if (Array.isArray(data)) {
@@ -29,7 +29,7 @@ export function SearchBar() {
 
   useEffect(() => {
       // Fetch item codes from Flask API
-      fetch("https://airphoton-workguide.onrender.com/get_item_codes")
+      fetch("http://18.212.21.75:5000/get_item_codes")
         .then((response) => response.json())
         .then((data) => {
           if (Array.isArray(data)) {

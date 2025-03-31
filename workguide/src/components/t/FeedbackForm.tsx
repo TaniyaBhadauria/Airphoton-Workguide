@@ -31,7 +31,7 @@ const FeedbackForm: React.FC = () => {
 
     // Call the Flask API to submit the feedback
     try {
-      const response = await fetch("https://airphoton-workguide.onrender.com/submit_feedback", {
+      const response = await fetch("http://18.212.21.75:5000/submit_feedback", {
         method: "POST",
         body: formData, // Form data including the file
       });

@@ -31,7 +31,7 @@ export const ProfileInfo: React.FC = () => {
 
     const fetchUserProfile = async () => {
       try {
-        const response = await fetch(`https://airphoton-workguide.onrender.com/api/user?username=${username}`);
+        const response = await fetch(`http://18.212.21.75:5000/api/user?username=${username}`);
 
         if (!response.ok) {
           throw new Error("User not found or an error occurred");

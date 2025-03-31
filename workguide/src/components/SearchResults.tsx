@@ -13,7 +13,7 @@ export function SearchResults() {
 
   // Fetch all items on component load
   useEffect(() => {
-    fetch(`https://airphoton-workguide.onrender.com/items`)
+    fetch(`http://18.212.21.75:5000/items`)
       .then((response) => response.json())
       .then((data) => {
         setAllItems(data); // Store all items
