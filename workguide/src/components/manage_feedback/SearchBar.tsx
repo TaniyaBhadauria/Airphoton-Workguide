@@ -15,7 +15,7 @@ export function SearchBar() {
       <input
                 type="text"
                 className="form-control"
-                placeholder="Search..."
+                placeholder="Search feedbacks..."
               />
 
       </div>

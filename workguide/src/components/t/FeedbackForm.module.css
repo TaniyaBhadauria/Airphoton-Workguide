@@ -5,6 +5,7 @@
   position: fixed;
   top: 50%;
   left: 50%;
+  width: 500px;
   transform: translate(-50%) translateY(-50%);
   box-shadow:
     0 10px 15px -3px #0000001a,
@@ -73,7 +74,6 @@
 .suggestionInput {
   border: 1px solid #cbd5e0;
   border-radius: 0.25rem;
-  height: 24px;
   padding: 0.5rem;
   width: 100%;
 }
@@ -98,3 +98,30 @@
   outline: 2px solid #4318ff;
   outline-offset: 2px;
 }
+
+.starContainer {
+  display: flex;
+  gap: 5px;
+}
+
+.star {
+  font-size: 30px;
+  cursor: pointer;
+  color: gray;
+}
+
+.star:hover,
+.star:focus {
+  color: gold;
+}
+
+.star.selected {
+  color: gold;
+}
+
+.emojiHelperText {
+  font-size: 12px;
+  color: #6c757d;
+  margin-top: 8px;
+}
+

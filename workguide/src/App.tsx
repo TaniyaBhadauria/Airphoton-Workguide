@@ -7,6 +7,7 @@ import  Instructions  from './components/instructions/Instructions'
 import  ChangeLog  from './components/ChangeLog'
 import  CreateAccount  from './CreateAccount'
 import  UserProfile  from './components/userProfile/UserProfile'
+import  Feedbacks  from './components/manage_feedback/ManageFeedback'
 import { store } from "./redux/store";;
 
 const App: React.FC = () => {
@@ -19,6 +20,7 @@ const App: React.FC = () => {
            <Route path="/lib" element={<InputDesign />} />
            <Route path="/user" element={<UserProfile />} />
            <Route path="/versions" element={<ChangeLog />} />
+           <Route path="/feedbacks" element={<Feedbacks />} />
            <Route path="/instructions" element={<Instructions />} />
         </Routes>
         </Provider>

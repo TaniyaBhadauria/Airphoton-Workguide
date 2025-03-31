@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import itemCodeReducer from "./itemCodeSlice";
 import userScreenReducer from "./userScreenSlice";
+import userNameReducer from "./userNameSlice";
 
 export const store = configureStore({
   reducer: {
     itemCode: itemCodeReducer,
-    userScreen: userScreenReducer
+    userScreen: userScreenReducer,
+    userName: userNameReducer
   },
 });
 

@@ -11,13 +11,13 @@ export const Navigation: React.FC = () => {
           <a href="#" className={styles.menuLink}>
             Home
           </a>
-          <a href="#" className={styles.menuLink}>
+          <a href="/lib" className={styles.menuLink}>
             Library
           </a>
-          <a href="#" className={styles.menuLink}>
-            Manage Instructions
+          <a href="/feedbacks" className={styles.menuLink}>
+            Manage Feedback
           </a>
-          <a href="#" className={styles.menuLink}>
+          <a href="/versions" className={styles.menuLink}>
             Change Log
           </a>
         </div>

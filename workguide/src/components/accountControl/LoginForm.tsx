@@ -1,16 +1,23 @@
-"use client";
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 import styles from "./LoginForm.module.css";
 import { InputField } from "./InputField";
+import { useDispatch } from "react-redux";
+import { setActiveUser } from "../../redux/userNameSlice";
 
 export const LoginForm: React.FC = () => {
   const navigate = useNavigate(); // Initialize useNavigate
+  const dispatch = useDispatch();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [email, setEmail] = useState("");
+
+  const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newUsername = e.target.value;
+    setUsername(newUsername); // Update the local state
+    dispatch(setActiveUser(newUsername)); // Dispatch to Redux to set the username globally
+  };
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault(); // Prevent default form submission behavior
@@ -40,6 +47,7 @@ export const LoginForm: React.FC = () => {
 
       // Check if the password matches the response password
       if (data.password === password) {
+          localStorage.setItem("username", username);
         navigate("/lib"); // Redirect to the home page
       } else {
         setError("Invalid password. Please try again.");

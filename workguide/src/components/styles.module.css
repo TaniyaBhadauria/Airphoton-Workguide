@@ -119,3 +119,11 @@
   font-size: 16px;
   text-align: left;
 }
+
+.button {
+  color: #fff;
+  background-color: #000;
+  border-radius: 0.25rem;
+  padding: 0.3rem 1.5rem;
+  margin-left: 500px;
+}

@@ -3,6 +3,9 @@ import * as React from "react";
 import styles from "./InstallationGuide.module.css";
 import { ImageGallery } from "./ImageGallery";
 import FeedbackForm from "../t/FeedbackForm";
+import RunSheetForm from "../fill_runsheet/RunSheetForm";
+import FormHeader from "../fill_runsheet/FormHeader";
+import BasicInformation from "../fill_runsheet/BasicInformation";
 
 interface StepContentProps {
   stepNumber: number;
@@ -26,6 +29,7 @@ export const StepContent: React.FC<StepContentProps> = ({
   media,
 }) => {
   const [isFeedbackOpen, setIsFeedbackOpen] = React.useState(false);
+  const [isRunSheetOpen, setIsRunSheetOpen] = React.useState(false);
 
   const handlePrevious = () => {
     if (stepNumber > 1) setStepNumber((prev) => prev - 1);
@@ -34,6 +38,10 @@ export const StepContent: React.FC<StepContentProps> = ({
   const handleNext = () => {
     if (stepNumber < totalSteps) setStepNumber((prev) => prev + 1);
   };
+
+  const handleFillRunSheet = () => {
+      setIsRunSheetOpen(true);
+    };
 
   return (
     <article className={styles.stepContent}>
@@ -44,7 +52,7 @@ export const StepContent: React.FC<StepContentProps> = ({
        {stepNumber === totalSteps ? (
            <button
              className={styles.button}
-             onClick={() => console.log("Fill Runsheet clicked")}
+             onClick={handleFillRunSheet}
              disabled={!isCompleted} // Ensure step is marked completed before proceeding
            >
              Fill Runsheet
@@ -57,6 +65,7 @@ export const StepContent: React.FC<StepContentProps> = ({
              Next
            </button>
          )}
+
       </nav>
 
       <header className={styles.stepHeader}>
@@ -104,6 +113,23 @@ export const StepContent: React.FC<StepContentProps> = ({
           </div>
         </div>
       )}
+      {/* Conditionally render the RunSheetForm when the button is clicked */}
+                      {isRunSheetOpen && (
+                             <main className={styles.runsheetModal}>
+                                   <FormHeader />
+                                   <form className={styles.formContainer}>
+                                     <BasicInformation />
+                                     <div className={styles.formActions}>
+                                           <button type="button" className={styles.cancelButton} onClick={() => setIsRunSheetOpen(false)}>
+                                             Cancel
+                                           </button>
+                                           <button type="submit" className={styles.submitButton}>
+                                             Submit
+                                           </button>
+                                         </div>
+                                   </form>
+                                 </main>
+                           )}
     </article>
   );
 };

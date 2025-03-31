@@ -4,7 +4,7 @@ import styles from "./LibraryWorkshop.module.css";
 export function SearchFooter() {
   return (
     <footer className={styles.footerContainer}>
-      <p className={styles.resultsCount}>4 Search Results</p>
+      <p className={styles.resultsCount}>14 Search Results</p>
       <a href="#" className={styles.showMoreLink}>
         <span className={styles.showMoreText}>Show me more results</span>
         <img

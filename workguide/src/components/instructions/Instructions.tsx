@@ -1,24 +1,50 @@
-"use client";
-
 import React from "react";
 import styles from "../styles.module.css";
 import { Header } from "../Header";
 import { Navigation } from "../Navigation";
-import  LibraryWorkshop  from "../LibraryWorkshop";
-import  InstallationGuide  from "./InstallationGuide";
-
+import InstallationGuide from "./InstallationGuide";
+import { RootState } from "../../redux/store";
+import { useSelector } from "react-redux";
 
 const Instructions: React.FC = () => {
-    const [isCompleted, setIsCompleted] = React.useState(false);
+    const itemCode = useSelector((state: RootState) => state.itemCode.itemCode);
+  const handleDownload = async () => {
+    try {
+      const response = await fetch(`http://127.0.0.1:5000/download_instructions?item_code=${itemCode}`);
+
+      if (!response.ok) {
+        throw new Error("Failed to download instructions");
+      }
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "instructions.pdf";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Error downloading the PDF:", error);
+    }
+  };
+
   return (
     <div className={styles.container}>
       <Header />
       <Navigation />
-      <div className={styles.heroImage} role="img" aria-label="Hero image" >
-      <div className={styles.libHeading}>
-              Breather Vent Installation Instructions
-      </div>
-      <InstallationGuide />
+      <div className={styles.heroImage} role="img" aria-label="Hero image">
+        <div className={styles.libHeading}>
+          Breather Vent Installation Instructions
+          <button className={styles.button} onClick={handleDownload}>
+                            Download Instructions
+                          </button>
+        </div>
+
+        <InstallationGuide />
       </div>
     </div>
   );

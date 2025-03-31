@@ -19,7 +19,7 @@ const InstallationGuide: React.FC = () => {
     );
   React.useEffect(() => {
       if (itemCode) {
-          fetch(`http://127.0.0.1:5000/instructions?item_code=CR100%20Filter%20Set%20Type%2001`)
+          fetch(`http://127.0.0.1:5000/instructions?item_code=${itemCode}`)
           .then((res) => res.json())
           .then((data) => {
               const BASE_URL = "https://raw.githubusercontent.com/TaniyaBhadauria/apps-wi/master/";

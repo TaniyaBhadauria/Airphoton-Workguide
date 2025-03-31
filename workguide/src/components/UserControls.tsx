@@ -17,7 +17,7 @@ export const UserControls: React.FC = () => {
       </div>
       <div className={styles.controlItem}>
         <AvatarIcon />
-        <span className={styles.controlLabel}>User</span>
+        <a href="/user" className={styles.controlLabel}>User</a>
       </div>
     </div>
   );
