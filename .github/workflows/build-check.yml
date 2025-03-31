@@ -24,6 +24,8 @@ jobs:
 
       - name: Install Node.js dependencies
         run: npm install
+        working-directory: workguide  # Set working directory
 
       - name: Run build (optional)
-        run: npm run build  # Remove if no build step in frontend
+        run: npm run build
+        working-directory: workguide  # Set working directory
