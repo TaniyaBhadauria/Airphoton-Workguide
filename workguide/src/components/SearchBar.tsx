@@ -6,15 +6,11 @@ import { setItemCode } from "../redux/itemCodeSlice";
 import styles from "./LibraryWorkshop.module.css";
 
 export function SearchBar() {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [categories, setCategories] =useState<string[]>([]);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [itemCodes, setItemCodes] = useState<string[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const [searchFlag, setSearchFlag] = useState<Boolean>();
   const [filteredCodes, setFilteredCodes] = useState<string[]>([]);
-  const [selectedCode, setSelectedCode] = useState<string | null>(null);
-  const [itemImage, setItemImage] = useState<string | null>(null);
   const dispatch = useDispatch();
 
   useEffect(() => {

@@ -1,14 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setActiveUser } from "../../redux/userNameSlice"; // Import the action
 import styles from "./LoginForm.module.css";
 import selectStyles from "./InputField.module.css";
 import { InputField } from "./InputField";
 
 export const CreateAccountForm: React.FC = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch(); // Access the Redux dispatch function
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");

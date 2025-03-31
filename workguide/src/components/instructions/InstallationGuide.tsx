@@ -9,7 +9,6 @@ import { StepContent } from "./StepContent";
 const TOTAL_STEPS = 5; // Adjust total steps as needed
 const InstallationGuide: React.FC = () => {
     const itemCode = useSelector((state: RootState) => state.itemCode.itemCode);
-  const [isCompleted, setIsCompleted] = React.useState(false);
   const [stepNumber, setStepNumber] = React.useState(1);
   const [instructions, setInstructions] = React.useState<
       { title: string; content: string; media: { media_path: string }[] }[]

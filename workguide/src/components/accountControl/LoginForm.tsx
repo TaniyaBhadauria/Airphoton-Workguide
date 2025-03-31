@@ -7,17 +7,10 @@ import { setActiveUser } from "../../redux/userNameSlice";
 
 export const LoginForm: React.FC = () => {
   const navigate = useNavigate(); // Initialize useNavigate
-  const dispatch = useDispatch();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [email, setEmail] = useState("");
-
-  const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newUsername = e.target.value;
-    setUsername(newUsername); // Update the local state
-    dispatch(setActiveUser(newUsername)); // Dispatch to Redux to set the username globally
-  };
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault(); // Prevent default form submission behavior

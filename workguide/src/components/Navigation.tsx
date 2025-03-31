@@ -8,7 +8,7 @@ export const Navigation: React.FC = () => {
       <div className={styles.navigationContent}>
         <MenuIcon />
         <div className={styles.menuItems}>
-          <a href="#" className={styles.menuLink}>
+          <a href="/lib" className={styles.menuLink}>
             Home
           </a>
           <a href="/lib" className={styles.menuLink}>

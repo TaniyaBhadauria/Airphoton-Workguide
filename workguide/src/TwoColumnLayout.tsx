@@ -1,7 +1,4 @@
 import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAnchor } from "@fortawesome/free-solid-svg-icons";
-import { faSass } from "@fortawesome/free-brands-svg-icons";
 import logo from "./components/images/logo.png";
 import { LoginForm } from './components/accountControl/LoginForm'
 import './TwoColumnLayout.css';

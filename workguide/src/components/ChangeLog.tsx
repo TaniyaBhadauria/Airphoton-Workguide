@@ -4,7 +4,6 @@ import React from "react";
 import styles from "./styles.module.css";
 import { Header } from "./Header";
 import { Navigation } from "./Navigation";
-import  LibraryWorkshop  from "./LibraryWorkshop";
 import  VersionLogsSection  from './version/VersionLogsSection'
 
 const ChangeLog: React.FC = () => {
