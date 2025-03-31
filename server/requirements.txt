@@ -82,8 +82,6 @@ python-apt==2.4.0+ubuntu3
 python-dateutil==2.8.1
 PyYAML==6.0.1
 qrcode==8.0
-referencing==0.35.1
--e git+ssh://git@github.com/GLEIF-IT/reg-pilot-api.git@38edf323bbf1c0ecaa9898f4906bb95de0f54a5f#egg=reg_pilot_api
 requests==2.32.3
 roman==3.3
 rpds-py==0.19.0
@@ -106,8 +104,6 @@ typing_extensions==4.12.2
 ubuntu-pro-client==8001
 ufw==0.36.1
 unattended-upgrades==0.1
-urllib3==1.26.5
--e git+ssh://git@github.com/GLEIF-IT/vlei-verifier.git@f6fae4e1c123c7ed3443751ca41b467d64658b4b#egg=verifier
 wadllib==1.3.6
 wcwidth==0.2.13
 Werkzeug==3.1.3
