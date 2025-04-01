@@ -35,7 +35,7 @@ export const CreateAccountForm: React.FC = () => {
         base64ProfilePic = reader.result?.toString().split(",")[1] || "";
       }
 
-      const response = await fetch("http://18.212.21.75:5000/api/users", {
+      const response = await fetch("http://54.211.232.182:5000/api/users", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password, role, email, profilepic: base64ProfilePic }),

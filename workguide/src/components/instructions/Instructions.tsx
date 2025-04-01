@@ -10,7 +10,7 @@ const Instructions: React.FC = () => {
     const itemCode = useSelector((state: RootState) => state.itemCode.itemCode);
   const handleDownload = async () => {
     try {
-      const response = await fetch(`http://18.212.21.75:5000/download_instructions?item_code=${itemCode}`);
+      const response = await fetch(`http://54.211.232.182:5000/download_instructions?item_code=${itemCode}`);
 
       if (!response.ok) {
         throw new Error("Failed to download instructions");

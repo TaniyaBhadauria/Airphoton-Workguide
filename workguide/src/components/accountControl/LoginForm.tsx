@@ -23,7 +23,7 @@ export const LoginForm: React.FC = () => {
 
     try {
       // Fetch the data from the backend and await the response
-      const response = await fetch(`http://18.212.21.75:5000/get_user?username=${username}&password=${password}`, {
+      const response = await fetch(`http://54.211.232.182:5000/get_user?username=${username}&password=${password}`, {
         method: "GET",
       });
 
