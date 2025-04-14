@@ -435,7 +435,7 @@ def download_instructions():
 
         pdf.ln(10)
 
-    pdf_filename = "instructions.pdf"
+    pdf_filename = "../instructions.pdf"
     pdf.output(pdf_filename)
 
     return send_file(pdf_filename, as_attachment=True)
