@@ -127,3 +127,10 @@
   padding: 0.3rem 1.5rem;
   margin-left: 500px;
 }
+
+.toggleContainer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end; /* Aligns the switch to the right */
+  margin-left: auto; /* Pushes the switch to the far right */
+}
