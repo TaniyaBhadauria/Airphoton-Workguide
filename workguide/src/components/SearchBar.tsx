@@ -17,7 +17,7 @@ export function SearchBar() {
 
   // Fetch categories from the API when the component mounts
   useEffect(() => {
-    fetch("https://airphoton-workguide.onrender.com/get_directories?repo_owner=TaniyaBhadauria&repo_name=apps-wi")
+    fetch("https://y-eta-lemon.vercel.app/get_directories?repo_owner=TaniyaBhadauria&repo_name=apps-wi")
       .then((response) => response.json())
       .then((data) => {
         if (Array.isArray(data)) {
@@ -31,7 +31,7 @@ export function SearchBar() {
 
   // Fetch item codes from the Flask API when the component mounts
   useEffect(() => {
-    fetch("https://airphoton-workguide.onrender.com/get_item_codes")
+    fetch("https://y-eta-lemon.vercel.app/get_item_codes")
       .then((response) => response.json())
       .then((data) => {
         if (Array.isArray(data)) {

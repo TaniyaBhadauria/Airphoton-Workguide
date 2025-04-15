@@ -40,7 +40,7 @@ export const CreateAccountForm: React.FC = () => {
       }
 
       // Send the form data to the server to create a new user
-      const response = await fetch("https://airphoton-workguide.onrender.com/api/users", {
+      const response = await fetch("https://y-eta-lemon.vercel.app/api/users", {
         method: "POST", // POST request to create a new user
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password, role, email, profilepic: base64ProfilePic }), // Send the form data as JSON

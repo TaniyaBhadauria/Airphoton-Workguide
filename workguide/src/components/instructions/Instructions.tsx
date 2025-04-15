@@ -10,7 +10,7 @@ const Instructions: React.FC = () => {
     const itemCode = useSelector((state: RootState) => state.itemCode.itemCode);
   const handleDownload = async () => {
     try {
-      const response = await fetch(`https://airphoton-workguide.onrender.com/download_instructions?item_code=${itemCode}`);
+      const response = await fetch(`https://y-eta-lemon.vercel.app/download_instructions?item_code=${itemCode}`);
 
       if (!response.ok) {
         throw new Error("Failed to download instructions");
