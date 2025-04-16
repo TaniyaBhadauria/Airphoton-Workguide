@@ -1,5 +1,3 @@
-"use client"; // Directive to indicate that this file is for the client-side React components
-
 import React from "react"; // Importing React to enable JSX and component creation
 import styles from "./styles.module.css"; // Importing the CSS module for styling the components
 import { Header } from "./Header"; // Importing the Header component for the page header

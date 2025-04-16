@@ -2,24 +2,33 @@ import React, { useState, useEffect } from "react"; // Importing React and useSt
 import styles from "./styles.module.css"; // Importing CSS module for styling
 import { MenuIcon } from "./icons/MenuIcon"; // Importing the MenuIcon component to be used in the navigation bar
 import Switch from "react-switch"; // Importing the Switch component from react-switch
+import { useNavigate } from "react-router-dom";
 
 // Navigation component to display the navigation bar with links
 export const Navigation: React.FC = () => {
   const [checked, setChecked] = useState<boolean>(navigator.onLine); // Default state based on the current network status
+  const navigate = useNavigate();
 
   // Method to handle the toggle change
   const handleChange = (checked: boolean) => {
     setChecked(checked); // Update the state when the toggle switch is changed
+    if (checked) {
+        navigate("/lib"); // Go to main app when toggled to Online
+      } else {
+        navigate("/offline"); // Go to offline page when toggled to Offline
+      }
     console.log("Toggle is now", checked ? "Online" : "Offline"); // For debugging or logging purposes
   };
 
   // Method to handle network status change
   const handleOnlineStatus = () => {
     setChecked(true); // Set the toggle to checked (Online) when the network becomes available
+    navigate("/lib");
   };
 
   const handleOfflineStatus = () => {
     setChecked(false); // Set the toggle to unchecked (Offline) when the network is disconnected
+    navigate("/offline");
   };
 
   // Set up event listeners for online/offline events

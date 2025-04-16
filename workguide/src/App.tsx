@@ -8,6 +8,7 @@ import  ChangeLog  from './components/ChangeLog'
 import  CreateAccount  from './CreateAccount'
 import  UserProfile  from './components/userProfile/UserProfile'
 import  Feedbacks  from './components/manage_feedback/ManageFeedback'
+import  OfflineMode  from './components/offline/offline'
 import { store } from "./redux/store";;
 
 const App: React.FC = () => {
@@ -22,6 +23,7 @@ const App: React.FC = () => {
            <Route path="/versions" element={<ChangeLog />} />
            <Route path="/feedbacks" element={<Feedbacks />} />
            <Route path="/instructions" element={<Instructions />} />
+           <Route path="/offline" element={<OfflineMode />} />
         </Routes>
         </Provider>
     </Router>
