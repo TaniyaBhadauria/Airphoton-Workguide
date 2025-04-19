@@ -362,6 +362,8 @@ def download_instructions():
 
         for media_path in media_paths:
             media_path = media_path.replace("\u0000", "")
+            if media_path.lower().endswith(".svg"):
+                continue
             image_url = f"{base_image_url}{media_path}"
             response = requests.get(image_url)
             if response.status_code == 200:
@@ -464,3 +466,45 @@ def get_user():
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+def download_pdf(item_code):
+    try:
+        response = requests.get(f"https://y-eta-lemon.vercel.app/download_instructions?item_code={item_code}")
+        if response.status_code == 200:
+            return response.content
+        else:
+            print(f"Failed to download PDF for {item_code}: {response.status_code}")
+            return None
+    except requests.RequestException as e:
+        print(f"Error downloading PDF for {item_code}: {e}")
+        return None
+
+# API endpoint to get item codes and their PDFs
+@app.route('/api/getInstructionPdfs', methods=['GET'])
+def get_instruction_pdfs():
+    try:
+        conn = get_db_connection()
+        cursor = conn.execute("SELECT item_name FROM products")
+        products = cursor.fetchall()
+
+        pdf_data = []
+
+        for product in products:
+            item_code = product[0]
+            print(f"Downloading PDF for {item_code}...")
+
+            # Download the PDF for each item code
+            pdf_content = download_pdf(item_code)
+
+            if pdf_content:
+                # Convert PDF content to base64 for easier transport
+                base64_pdf = base64.b64encode(pdf_content).decode('utf-8')
+                pdf_data.append({"item_code": item_code, "pdf": base64_pdf})
+
+        conn.close()
+
+        return jsonify(pdf_data)
+
+    except Exception as e:
+        print(f"Error generating PDFs: {e}")
+        return jsonify({"error": "Error generating PDF list"}), 500
