@@ -39,7 +39,7 @@
   gap: 10px;
 }
 
-.editButton, .editRoleButton {
+.editButton, .editRoleButton, .saveButton, .cancelButton {
   background-color: #007bff;
   color: white;
   border: none;
@@ -50,7 +50,7 @@
   height:50px;
 }
 
-.editButton:hover, .editRoleButton:hover {
+.editButton:hover, .editRoleButton:hover , .saveButton:hover, .cancelButton:hover {
   background-color: #0056b3;
 }
 
@@ -62,4 +62,14 @@
   .info {
     margin-left: 10px;
   }
+}
+
+.fileInput {
+  margin-top: 8px;
+}
+
+.profilePicContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

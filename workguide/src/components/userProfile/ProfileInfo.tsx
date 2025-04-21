@@ -3,26 +3,23 @@ import styles from "./ProfileInfo.module.css";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 
-// Define the type for user profile data
 interface UserProfile {
   id: number;
   username: string;
   email: string;
   role: string;
-  profilepic: string | null; // Can be a base64 string or null if no picture is set
+  profilepic: string | null;
 }
 
 export const ProfileInfo: React.FC = () => {
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+  const [editableProfile, setEditableProfile] = useState<UserProfile | null>(null);
+  const [isEditing, setIsEditing] = useState(false);
   const [error, setError] = useState<string>("");
 
-  // Get the username from the Redux store
   const username = localStorage.getItem("username");
-
-  // Get the active screen from the Redux store
   const activeScreen = useSelector((state: RootState) => state.userScreen.activeScreen);
 
-  // Fetch user profile data from API
   useEffect(() => {
     if (!username) {
       setError("User is not logged in.");
@@ -32,55 +29,149 @@ export const ProfileInfo: React.FC = () => {
     const fetchUserProfile = async () => {
       try {
         const response = await fetch(`https://y-eta-lemon.vercel.app/api/user?username=${username}`);
-
-        if (!response.ok) {
-          throw new Error("User not found or an error occurred");
-        }
+        if (!response.ok) throw new Error("User not found or an error occurred");
 
         const data = await response.json();
-        setUserProfile(data); // Store user data in state
+        setUserProfile(data);
+        setEditableProfile(data);
       } catch (error: any) {
-        setError(error.message); // Handle errors
+        setError(error.message);
       }
     };
 
     fetchUserProfile();
-  }, [username]); // Fetch user data when the username changes
+  }, [username]);
 
-  // Render error message if something goes wrong
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!editableProfile) return;
+    const { name, value } = e.target;
+    setEditableProfile({ ...editableProfile, [name]: value });
+  };
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setEditableProfile((prev) =>
+          prev ? { ...prev, profilepic: (reader.result as string).split(",")[1] } : prev
+        );
+      };
+      reader.readAsDataURL(file); // Converts to base64
+    }
+  };
+
+  const handleEditToggle = () => setIsEditing(true);
+  const handleCancel = () => {
+    setEditableProfile(userProfile);
+    setIsEditing(false);
+  };
+
+  const handleSave = async () => {
+    if (!editableProfile) return;
+    try {
+      const response = await fetch(`https://y-eta-lemon.vercel.app/api/user/${editableProfile.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(editableProfile),
+      });
+
+      if (!response.ok) throw new Error("Failed to update profile");
+
+      const updatedProfile = await response.json();
+      setUserProfile(updatedProfile);
+      setEditableProfile(updatedProfile);
+      setIsEditing(false);
+    } catch (err: any) {
+      setError(err.message);
+    }
+  };
+
+  if (error) return <div>Error: {error}</div>;
+  if (!editableProfile) return <p>Loading...</p>;
 
   return (
     <section className={styles.profileInfo}>
-      {userProfile ? (
-        <>
-          <img
-            src={userProfile.profilepic ? `data:image/png;base64,${userProfile.profilepic}` : "https://cdn.builder.io/api/v1/image/assets/TEMP/6876b92a217cbcff4fbbb8d2743c2e9a73cd9a74?placeholderIfAbsent=true&apiKey=60aae364d73645da910bcd623ed1d086"}
-            alt="Profile"
-            className={styles.profileImage}
+      <div className={styles.profilePicContainer}>
+        <img
+          src={
+            editableProfile.profilepic
+              ? `data:image/png;base64,${editableProfile.profilepic}`
+              : "https://cdn.builder.io/api/v1/image/assets/TEMP/6876b92a217cbcff4fbbb8d2743c2e9a73cd9a74?placeholderIfAbsent=true&apiKey=60aae364d73645da910bcd623ed1d086"
+          }
+          alt="Profile"
+          className={styles.profileImage}
+        />
+        {isEditing && (
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+            className={styles.fileInput}
           />
-          <div className={styles.details}>
-            <div className={styles.info}>
-              <strong>Name:</strong> {userProfile.username}
-              <br />
-              <br />
-              <strong>Email:</strong> {userProfile.email}
-              <br />
-              <br />
-              <strong>Current Role:</strong> {userProfile.role}
-            </div>
-          </div>
+        )}
+      </div>
 
-          {activeScreen === "My Profile" && (
-            <div className={styles.editButtons}>
-              <button className={styles.editButton}>Edit Profile</button>
-            </div>
+      <div className={styles.details}>
+        <div className={styles.info}>
+          <strong>Name:</strong>{" "}
+          {isEditing ? (
+            <input
+              type="text"
+              name="username"
+              value={editableProfile.username}
+              onChange={handleInputChange}
+              className={styles.input}
+            />
+          ) : (
+            editableProfile.username
           )}
-        </>
-      ) : (
-        <p>Loading...</p>
+          <br />
+          <br />
+          <strong>Email:</strong>{" "}
+          {isEditing ? (
+            <input
+              type="email"
+              name="email"
+              value={editableProfile.email}
+              onChange={handleInputChange}
+              className={styles.input}
+            />
+          ) : (
+            editableProfile.email
+          )}
+          <br />
+          <br />
+          <strong>Current Role:</strong>{" "}
+          {isEditing ? (
+            <input
+              type="text"
+              name="role"
+              value={editableProfile.role}
+              onChange={handleInputChange}
+              className={styles.input}
+            />
+          ) : (
+            editableProfile.role
+          )}
+        </div>
+      </div>
+
+      {activeScreen === "My Profile" && (
+        <div className={styles.editButtons}>
+          {isEditing ? (
+            <>
+              <button className={styles.saveButton} onClick={handleSave}>Save</button>
+              <button className={styles.cancelButton} onClick={handleCancel}>Cancel</button>
+            </>
+          ) : (
+            <button className={styles.editButton} onClick={handleEditToggle}>
+              Edit Profile
+            </button>
+          )}
+        </div>
       )}
     </section>
   );
