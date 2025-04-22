@@ -62,6 +62,9 @@ export const Navigation: React.FC = () => {
           <a href="/versions" className={styles.menuLink}>
             Change Log
           </a>
+          <a href="/edit-instructions" className={styles.menuLink}>
+            Manage Instructions
+          </a>
         </div>
 
         {/* Toggle Switch aligned to the right */}
