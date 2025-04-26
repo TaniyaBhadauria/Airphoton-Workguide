@@ -3,13 +3,13 @@ from flask_cors import CORS
 import sqlitecloud
 import os
 import sqlite3
+import yaml
 import base64
 import requests
 from models import Instruction, InstructionMedia
 from fpdf import FPDF
 from io import BytesIO
 import tempfile
-from syncDB import find_yaml_by_item_code
 
 app = Flask(__name__)
 CORS(app)
@@ -50,6 +50,52 @@ def fetch_yaml_files(repo_owner, repo_name, token):
     else:
         print(f"Error fetching repository files: {response.status_code} - {response.text}")
         return []
+    
+def find_yaml_by_item_code(target_code, repo_owner, repo_name, token):
+    yaml_files = fetch_yaml_files(repo_owner, repo_name, token)
+    print(yaml_files)
+
+    for file_path in yaml_files:
+        file_url = f"https://api.github.com/repos/{repo_owner}/{repo_name}/contents/{file_path}"
+        response = requests.get(file_url)
+        print(file_url)
+
+        if response.status_code == 200:
+            content_data = response.json()
+            if "content" in content_data:
+                yaml_content = base64.b64decode(content_data["content"]).decode("utf-8")
+                try:
+                    docs = list(yaml.safe_load_all(yaml_content))
+                    for doc in docs:
+                        if isinstance(doc, dict) and doc.get("item_name") == target_code:
+                            commit_info = get_last_commit_info(repo_owner, repo_name, file_path, token)
+                            return {
+                                "file_path": file_path,
+                                "item_name": doc.get("item_name"),
+                                "item_code": target_code,
+                                "last_commit": commit_info
+                            }
+                except yaml.YAMLError as e:
+                    print(f"YAML parse error in {file_path}: {e}")
+        else:
+            print(f"Failed to fetch file {file_path}: {response.status_code}")
+    return {"error": "Item code not found"}
+
+def get_last_commit_info(repo_owner, repo_name, file_path, token):
+    url = f"https://api.github.com/repos/{repo_owner}/{repo_name}/commits"
+    headers = {"Authorization": f"token {token}"} if token else {}
+    params = {"path": file_path, "per_page": 1}
+    response = requests.get(url, headers=headers, params=params)
+    if response.status_code == 200:
+        commits = response.json()
+        if commits:
+            commit = commits[0]
+            return {
+                "message": commit["commit"]["message"],
+                "author": commit["commit"]["author"]["name"],
+                "date": commit["commit"]["author"]["date"]
+            }
+    return {}
 
 def extract_item_names(repo_owner, repo_name, yaml_files, token):
     """Read each YAML file and extract item_code."""
@@ -541,7 +587,7 @@ def submit():
 def check_item_code():
     repo_owner = 'TaniyaBhadauria'
     repo_name = 'apps-wi'
-    token = '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'  # Optional for private repos 
+    token = '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'  # Optional for private repos 
     target_code = request.args.get('target_code')
 
     if not all([target_code, repo_owner, repo_name]):
@@ -550,5 +596,21 @@ def check_item_code():
     result = find_yaml_by_item_code(target_code, repo_owner, repo_name, token)
     return jsonify(result)
 
-if __name__ == '__main__':
-    app.run(debug=True)
+@app.route('/request-role', methods=['POST'])
+def request_role():
+    data = request.json
+    user_id = data.get('user_id')
+    username = data.get('username')
+    requested_role = data.get('requested_role')
+
+    if not all([user_id, username, requested_role]):
+        return jsonify({"error": "Missing fields"}), 400
+
+    conn = get_db_connection()
+    conn.execute(
+        'INSERT INTO notifications (user_id, username, requested_role, status) VALUES (?, ?, ?, ?)',
+        (user_id, username, requested_role, 'Pending')
+    )
+    conn.commit()
+    conn.close()
+    return jsonify({"message": "Role request submitted!"}), 201

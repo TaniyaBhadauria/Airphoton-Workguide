@@ -27,13 +27,13 @@ export function SearchableTable() {
   useEffect(() => {
     const fetchItemsWithCommit = async () => {
       try {
-        const res = await fetch("http://localhost:5000/items");
+        const res = await fetch("https://y-eta-lemon.vercel.app/items");
         const itemList: Item[] = await res.json();
 
         const itemData = await Promise.all(
           itemList.map(async (item) => {
             const commitRes = await fetch(
-              `http://localhost:5000/check-item-code?target_code=${encodeURIComponent(item.item_id)}`
+              `https://y-eta-lemon.vercel.app/check-item-code?target_code=${encodeURIComponent(item.item_id)}`
             );
             const commitInfo = await commitRes.json();
             return {

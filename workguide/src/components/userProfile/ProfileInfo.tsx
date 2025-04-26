@@ -34,6 +34,9 @@ export const ProfileInfo: React.FC = () => {
         const data = await response.json();
         setUserProfile(data);
         setEditableProfile(data);
+
+        //localStorage to set user data
+        localStorage.setItem("userProfile", JSON.stringify(data));
       } catch (error: any) {
         setError(error.message);
       }
