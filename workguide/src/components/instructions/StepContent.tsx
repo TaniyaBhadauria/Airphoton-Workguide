@@ -1,5 +1,3 @@
-"use client"; // Indicates that this component is client-side rendered
-
 import * as React from "react"; // Importing React for component and state management
 import styles from "./InstallationGuide.module.css"; // Importing the CSS module for styling the component
 import { ImageGallery } from "./ImageGallery"; // Importing ImageGallery component for displaying images
@@ -121,20 +119,11 @@ export const StepContent: React.FC<StepContentProps> = ({
 
       {/* Conditionally render the RunSheetForm modal when the button is clicked */}
       {isRunSheetOpen && (
-        <main className={styles.runsheetModal}> {/* Main container for the run sheet form */}
-          <FormHeader /> {/* Header for the run sheet form */}
-          <form className={styles.formContainer}> {/* Form container for the run sheet */}
-            <BasicInformation /> {/* Basic information section of the run sheet */}
-            <div className={styles.formActions}> {/* Actions for submitting or canceling the form */}
-              <button type="button" className={styles.cancelButton} onClick={() => setIsRunSheetOpen(false)}>
-                Cancel {/* Button to cancel the run sheet form */}
-              </button>
-              <button type="submit" className={styles.submitButton}>
-                Submit {/* Button to submit the run sheet form */}
-              </button>
-            </div>
-          </form>
-        </main>
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalContent}>
+            <RunSheetForm onCancel={() => setIsRunSheetOpen(false)} />
+          </div>
+        </div>
       )}
     </article>
   );

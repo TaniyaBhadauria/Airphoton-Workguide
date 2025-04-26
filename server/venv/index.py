@@ -508,3 +508,30 @@ def get_instruction_pdfs():
     except Exception as e:
         print(f"Error generating PDFs: {e}")
         return jsonify({"error": "Error generating PDF list"}), 500
+    
+
+@app.route('/api/submit', methods=['POST'])
+def submit():
+    data = request.json
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute('''
+            INSERT INTO work_review (
+                pro_number, item_code, station, sa_serial_number,
+                technician, entry_date, review, review_date
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        ''', (
+            data.get('proNumber'),
+            data.get('itemCode'),
+            data.get('station'),
+            data.get('saSn'),
+            data.get('technician'),
+            data.get('techDate'),
+            data.get('review'),
+            data.get('reviewDate')
+        ))
+        conn.commit()
+        return jsonify({"message": "Data inserted successfully"}), 201
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
