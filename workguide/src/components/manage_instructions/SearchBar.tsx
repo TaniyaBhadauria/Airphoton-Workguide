@@ -19,9 +19,6 @@ export function SearchBar() {
               />
 
       </div>
-     <select className={styles.dropdown} >
-             <option value="">Select a category</option>
-     </select>
 
         <button className={styles.searchButton}>Search</button>
 

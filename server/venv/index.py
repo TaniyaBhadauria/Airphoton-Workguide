@@ -9,6 +9,7 @@ from models import Instruction, InstructionMedia
 from fpdf import FPDF
 from io import BytesIO
 import tempfile
+from syncDB import find_yaml_by_item_code
 
 app = Flask(__name__)
 CORS(app)
@@ -535,3 +536,19 @@ def submit():
         return jsonify({"message": "Data inserted successfully"}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+    
+@app.route('/check-item-code', methods=['GET'])
+def check_item_code():
+    repo_owner = 'TaniyaBhadauria'
+    repo_name = 'apps-wi'
+    token = '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'  # Optional for private repos 
+    target_code = request.args.get('target_code')
+
+    if not all([target_code, repo_owner, repo_name]):
+        return jsonify({"error": "Missing required parameters"}), 400
+
+    result = find_yaml_by_item_code(target_code, repo_owner, repo_name, token)
+    return jsonify(result)
+
+if __name__ == '__main__':
+    app.run(debug=True)

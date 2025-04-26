@@ -4,7 +4,7 @@ import { Header } from "../Header";
 import { Navigation } from "../Navigation";
 import { RootState } from "../../redux/store";
 import { SearchBar } from "./SearchBar";
-import { Table } from "./Table";
+import { SearchableTable } from "./Table";
 import { useSelector } from "react-redux";
 import FeedbackForm from "./InputDesign";
 import Modal from "./Modal";
@@ -29,8 +29,7 @@ const EditInstructions: React.FC = () => {
         <button className={styles.createButton} onClick={handleCreateClick}>
           + Create new
         </button>
-        <SearchBar />
-        <Table />
+        <SearchableTable />
       </div>
 
       {showForm && (
