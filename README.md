@@ -68,11 +68,30 @@ Fill Structured Runsheet: Complete job documentation through a structured form.
 Download Instructions:
 ![img_5.png](img_5.png)
 
-Role Management: Users can request roles via their profile settings.
+Role Management: Users can request roles via their profile settings and edit profile.
 ![img_6.png](img_6.png)
+![img_9.png](img_9.png)
+Clicking on notifications will redirect to the page where users can check thier raised role requests
+![img_10.png](img_10.png)
 
 Manage Feedback: Admins can review and resolve the feebacks
 ![img_7.png](img_7.png)
 
 Versions: Admins can compare the latest versions
 ![img_8.png](img_8.png)
+
+Manage Instructions: Users can create or edit the work instructions.
+Clicking edit will redirect to the git repository and clicking creating new instruction will create a new feature branch in git repository.
+![img_11.png](img_11.png)
+![img_12.png](img_12.png)
+
+Notifications: Only Admin Roles will have access to approve/reject the role requests.
+![img_13.png](img_13.png)
+
+Help: Has some steps to how to use the website
+![img_14.png](img_14.png)
+
+Offline mode: Users will have access to the pdf if they loose internet access.
+![img_15.png](img_15.png)
+
+
