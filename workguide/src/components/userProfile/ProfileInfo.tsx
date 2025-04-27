@@ -35,7 +35,7 @@ export const ProfileInfo: React.FC = () => {
         setUserProfile(data);
         setEditableProfile(data);
 
-        //localStorage to set user data
+        // localStorage to set user data
         localStorage.setItem("userProfile", JSON.stringify(data));
       } catch (error: any) {
         setError(error.message);
@@ -44,6 +44,59 @@ export const ProfileInfo: React.FC = () => {
 
     fetchUserProfile();
   }, [username]);
+
+  const handleSave = async () => {
+    if (!editableProfile) return;
+
+    try {
+      // Prepare the data to be sent to the backend (only email and profilepic)
+      const updatedData = {
+        email: editableProfile.email,
+        profilepic: editableProfile.profilepic, // Only send profilepic if it was changed
+      };
+
+      // Make a PUT request to update the user profile
+      const response = await fetch(`https://y-eta-lemon.vercel.app/update-user/${editableProfile.username}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedData),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to update profile");
+      }
+
+      // Fetch the updated user profile after the successful save
+      const updatedProfile = await response.json();
+
+      // Update the profile state after successful save
+      setUserProfile(updatedProfile);
+      setEditableProfile(updatedProfile);
+
+      // Refetch the user profile from the backend to show the updated data
+      const fetchUserProfile = async () => {
+        try {
+          const fetchResponse = await fetch(`https://y-eta-lemon.vercel.app/api/user?username=${editableProfile.username}`);
+          if (!fetchResponse.ok) throw new Error("Failed to fetch updated user profile");
+
+          const updatedData = await fetchResponse.json();
+          setUserProfile(updatedData);
+          setEditableProfile(updatedData);
+        } catch (fetchError: any) {
+          setError(fetchError.message);
+        }
+      };
+
+      fetchUserProfile();
+
+      setIsEditing(false);
+    } catch (err: any) {
+      setError(err.message);
+    }
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!editableProfile) return;
@@ -70,27 +123,6 @@ export const ProfileInfo: React.FC = () => {
     setIsEditing(false);
   };
 
-  const handleSave = async () => {
-    if (!editableProfile) return;
-    try {
-      const response = await fetch(`https://y-eta-lemon.vercel.app/api/user/${editableProfile.id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(editableProfile),
-      });
-
-      if (!response.ok) throw new Error("Failed to update profile");
-
-      const updatedProfile = await response.json();
-      setUserProfile(updatedProfile);
-      setEditableProfile(updatedProfile);
-      setIsEditing(false);
-    } catch (err: any) {
-      setError(err.message);
-    }
-  };
 
   if (error) return <div>Error: {error}</div>;
   if (!editableProfile) return <p>Loading...</p>;
@@ -119,19 +151,7 @@ export const ProfileInfo: React.FC = () => {
 
       <div className={styles.details}>
         <div className={styles.info}>
-          <strong>Name:</strong>{" "}
-          {isEditing ? (
-            <input
-              type="text"
-              name="username"
-              value={editableProfile.username}
-              onChange={handleInputChange}
-              className={styles.input}
-            />
-          ) : (
-            editableProfile.username
-          )}
-          <br />
+          <strong>Name:</strong> {editableProfile.username} <br />
           <br />
           <strong>Email:</strong>{" "}
           {isEditing ? (
@@ -147,18 +167,7 @@ export const ProfileInfo: React.FC = () => {
           )}
           <br />
           <br />
-          <strong>Current Role:</strong>{" "}
-          {isEditing ? (
-            <input
-              type="text"
-              name="role"
-              value={editableProfile.role}
-              onChange={handleInputChange}
-              className={styles.input}
-            />
-          ) : (
-            editableProfile.role
-          )}
+          <strong>Current Role:</strong> {editableProfile.role}
         </div>
       </div>
 
@@ -166,8 +175,12 @@ export const ProfileInfo: React.FC = () => {
         <div className={styles.editButtons}>
           {isEditing ? (
             <>
-              <button className={styles.saveButton} onClick={handleSave}>Save</button>
-              <button className={styles.cancelButton} onClick={handleCancel}>Cancel</button>
+              <button className={styles.saveButton} onClick={handleSave}>
+                Save
+              </button>
+              <button className={styles.cancelButton} onClick={handleCancel}>
+                Cancel
+              </button>
             </>
           ) : (
             <button className={styles.editButton} onClick={handleEditToggle}>

@@ -4,24 +4,57 @@ import { RootState } from "../redux/store";
 import { useNavigate } from "react-router-dom";
 import styles from "./LibraryWorkshop.module.css";
 
+interface OfflineItem {
+  item_code: string;
+  pdf: string; // base64 string
+}
+
 export function SearchResults() {
   const itemCode = useSelector((state: RootState) => state.itemCode.itemCode);
   const [allItems, setAllItems] = useState<any[]>([]); // Store all available items
   const [filteredItem, setFilteredItem] = useState<any | null>(null); // Store selected item details
   const [isSearching, setIsSearching] = useState<boolean>(false);
+  const [offlineItems, setOfflineItems] = useState<OfflineItem[]>([]);
+  const [downloadLinks, setDownloadLinks] = useState<{ [key: string]: string }>({});
   const navigate = useNavigate();
 
-  // Fetch all items on component load
-  useEffect(() => {
-    fetch(`https://y-eta-lemon.vercel.app/items`)
-      .then((response) => response.json())
-      .then((data) => {
-        setAllItems(data); // Store all items
-      })
-      .catch((error) => {
-        console.error("Error fetching all items:", error);
-      });
-  }, []);
+   useEffect(() => {
+      const fetchItems = async () => {
+        try {
+          // Fetch all items first
+          const allItemsResponse = await fetch("https://y-eta-lemon.vercel.app/items");
+          const allItemsData = await allItemsResponse.json();
+
+          // Fetch offline items second
+          const offlineItemsResponse = await fetch("https://y-eta-lemon.vercel.app/api/getInstructionPdfs");
+          const offlineItemsData: OfflineItem[] = await offlineItemsResponse.json();
+
+          // Process offline items to create download links
+          const offlineLinks: { [key: string]: string } = {};
+          for (const item of offlineItemsData) {
+            const byteCharacters = atob(item.pdf);
+            const byteNumbers = new Array(byteCharacters.length)
+              .fill(0)
+              .map((_, i) => byteCharacters.charCodeAt(i));
+            const byteArray = new Uint8Array(byteNumbers);
+            const blob = new Blob([byteArray], { type: "application/pdf" });
+            const blobUrl = URL.createObjectURL(blob);
+            offlineLinks[item.item_code] = blobUrl;
+          }
+
+          // Update state with the fetched data
+          setAllItems(allItemsData);
+          setOfflineItems(offlineItemsData);
+          setDownloadLinks(offlineLinks);
+          localStorage.setItem('offlineItems', JSON.stringify(offlineItemsData));
+          localStorage.setItem('downloadLinks', JSON.stringify(offlineLinks));
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      };
+
+      fetchItems();
+    }, []); // Empty dependency array means this runs once when the component is mounted
 
    const handleItemClick = (itemId: string) => {
       // Navigate to the detail page with itemCode

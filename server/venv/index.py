@@ -614,3 +614,158 @@ def request_role():
     conn.commit()
     conn.close()
     return jsonify({"message": "Role request submitted!"}), 201
+
+def get_pending_notifications():
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    # for admin roles get peding requests
+    cursor.execute("""
+        SELECT id, user_id, username, requested_role, status, created_at
+        FROM notifications
+        WHERE status = 'Pending'
+    """)
+    rows = cursor.fetchall()
+    conn.close()
+
+    notifications = [
+        {
+            "id": row[0],
+            "user_id": row[1],
+            "username": row[2],
+            "requested_role": row[3],
+            "status": row[4],
+            "created_at": row[5],
+        }
+        for row in rows
+    ]
+    return notifications
+
+def get_approved_notifications(username):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    # Get only approved requests for a specific username
+    cursor.execute("""
+        SELECT id, user_id, username, requested_role, status, created_at
+        FROM notifications
+        WHERE status = 'Approved' AND username = ?
+    """, (username,))
+    
+    rows = cursor.fetchall()
+    conn.close()
+
+    notifications = [
+        {
+            "id": row[0],
+            "user_id": row[1],
+            "username": row[2],
+            "requested_role": row[3],
+            "status": row[4],
+            "created_at": row[5],
+        }
+        for row in rows
+    ]
+    return notifications
+
+def is_admin(username):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT role FROM user WHERE username = ?
+    """, (username,))
+    result = cursor.fetchone()
+    conn.close()
+
+    if result and result[0] == 'admin':
+        return True
+    return False
+
+@app.route('/pending-notifications', methods=['GET'])
+def pending_notifications():
+    username = request.args.get('username')
+
+    if not username:
+        return jsonify({"error": "Username is required"}), 400
+
+    if not is_admin(username):
+        return jsonify({"error": "Unauthorized: Only Admins can view notifications"}), 403
+
+    notifications = get_pending_notifications()
+    return jsonify(notifications)
+
+@app.route('/update-notification', methods=['POST'])
+def update_notification():
+    data = request.get_json()
+    notif_id = data.get('id')
+    new_status = data.get('status')
+
+    if not notif_id or not new_status:
+        return jsonify({"error": "Missing id or status"}), 400
+
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute(
+        'UPDATE notifications SET status = ? WHERE id = ?',
+        (new_status, notif_id)
+    )
+    conn.commit()
+    conn.close()
+
+    return jsonify({"message": "Notification updated successfully"}), 200
+
+@app.route('/approved-notifications', methods=['GET'])
+def approved_notifications():
+    username = request.args.get('username')  # get username from query parameters
+    if not username:
+        return jsonify({"error": "Username is required"}), 400
+    
+    notifications = get_approved_notifications(username)
+    return jsonify(notifications), 200
+
+@app.route('/update-user/<username>', methods=['PUT'])
+def update_user(username):
+    # Get data from the request
+    data = request.get_json()
+
+    email = data.get('email')
+    profilepic = data.get('profilepic')  # Profile picture is optional
+
+    # Establish database connection
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    # Prepare the update query dynamically based on the provided fields
+    update_fields = []
+    query_params = []
+
+    if email:
+        update_fields.append("email = ?")
+        query_params.append(email)
+    
+    if profilepic:
+        update_fields.append("profilepic = ?")
+        query_params.append(profilepic)
+
+    # Join the update fields with commas
+    update_query = f'''
+        UPDATE user
+        SET {', '.join(update_fields)}
+        WHERE username = ?
+    '''
+    
+    query_params.append(username)
+
+    try:
+        cursor.execute(update_query, tuple(query_params))
+        conn.commit()
+
+        if cursor.rowcount == 0:
+            return jsonify({"error": "User not found"}), 404
+
+        return jsonify({"message": "User updated successfully"}), 200
+    except Exception as e:
+        conn.rollback()
+        return jsonify({"error": str(e)}), 500
+    finally:
+        conn.close()

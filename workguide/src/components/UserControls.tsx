@@ -14,7 +14,7 @@ export const UserControls: React.FC = () => {
         {/* Notification icon */}
         <NotificationIcon />
         {/* Label for the notification section */}
-        <span className={styles.controlLabel}>Notifications</span>
+        <a href="/notifications" className={styles.controlLabel}>Notifications</a>
       </div>
 
       {/* Help control item */}

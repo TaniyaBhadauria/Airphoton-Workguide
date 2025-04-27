@@ -2,12 +2,12 @@
 import * as React from "react";
 import styles from "./SearchBar.module.css";
 
-// FormHeader component for the title section
+// FormHeader component
 const FormHeader = () => {
   return <h1 className={styles.formTitle}>Create new work instruction</h1>;
 };
 
-// FormField component for input fields with labels
+// FormField component
 interface FormFieldProps {
   label: string;
   type?: string;
@@ -22,15 +22,13 @@ const FormField: React.FC<FormFieldProps> = ({ label, type = "text" }) => {
       <input
         type={type}
         className={styles.formInput}
-        {...(isFile
-          ? { accept: "image/*", multiple: true }
-          : {})}
+        {...(isFile ? { accept: "image/*", multiple: true } : {})}
       />
     </>
   );
 };
 
-// StepItem component for each instruction step
+// StepItem component
 interface StepItemProps {
   stepNumber: number;
 }
@@ -39,45 +37,60 @@ const StepItem: React.FC<StepItemProps> = ({ stepNumber }) => {
   return (
     <>
       <section className={styles.formRow}>
-        <FormField label={`Step${stepNumber}:`} />
-        <FormField
-          label={`Step${stepNumber} Description${stepNumber > 1 ? ":" : ""}`}
-        />
+        <FormField label={`Step ${stepNumber}: title`} />
+        <FormField label={`Step ${stepNumber} content :`} />
       </section>
       <section className={styles.formRow}>
-        <FormField label="Multimedia Upload" type="file" />
+        <FormField label="Media" type="file" />
       </section>
     </>
   );
 };
 
-// FormActions component for the buttons at the bottom
+// FormActions component
 const FormActions = () => {
   return (
     <section className={styles.buttonContainer}>
-      <button className={styles.secondaryButton}>Cancel</button>
-      <button className={styles.primaryButton}>Submit</button>
+      <button type="button" className={styles.secondaryButton}>Cancel</button>
+      <button type="submit" className={styles.primaryButton}>Submit</button>
     </section>
   );
 };
 
 // Main InputDesign component
 function InputDesign() {
+  const [steps, setSteps] = React.useState<number[]>([1, 2]); // initial steps
+
+  const addStep = () => {
+    setSteps(prev => [...prev, prev.length + 1]);
+  };
+
   return (
     <article className={styles.formContainer}>
       <FormHeader />
       <form className={styles.formContent}>
         <section className={styles.formRow}>
-          <FormField label="Instruction Title" />
-          <FormField label="Description" />
+          <FormField label="Item Code" />
+          <FormField label="Item Name" />
+        </section>
+
+        <section className={styles.formRow}>
+          <FormField label="Bom Code" />
+          <FormField label="Cover Image" type="file" />
         </section>
 
         <h2 className={styles.sectionTitle}>Steps to Complete:</h2>
 
-        <StepItem stepNumber={1} />
-        <StepItem stepNumber={2} />
+        {/* Render StepItems dynamically */}
+        {steps.map((stepNumber) => (
+          <StepItem key={stepNumber} stepNumber={stepNumber} />
+        ))}
 
-        <button type="button" className={styles.primaryButton}>
+        <button
+          type="button"
+          className={styles.primaryButton}
+          onClick={addStep}
+        >
           + Add Another Step
         </button>
 

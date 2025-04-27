@@ -14,32 +14,22 @@ const OfflineMode: React.FC = () => {
   const [downloadLinks, setDownloadLinks] = useState<{ [key: string]: string }>({});
 
   useEffect(() => {
-    const fetchOfflineItems = async () => {
-      try {
-        const response = await fetch("https://y-eta-lemon.vercel.app/api/getInstructionPdfs");
-        const data: OfflineItem[] = await response.json();
+    // Retrieve data from localStorage
+    const storedOfflineItems = localStorage.getItem('offlineItems');
+    const storedDownloadLinks = localStorage.getItem('downloadLinks');
 
-        const links: { [key: string]: string } = {};
-        for (const item of data) {
-          const byteCharacters = atob(item.pdf);
-          const byteNumbers = new Array(byteCharacters.length)
-            .fill(0)
-            .map((_, i) => byteCharacters.charCodeAt(i));
-          const byteArray = new Uint8Array(byteNumbers);
-          const blob = new Blob([byteArray], { type: "application/pdf" });
-          const blobUrl = URL.createObjectURL(blob);
-          links[item.item_code] = blobUrl;
-        }
+    if (storedOfflineItems && storedDownloadLinks) {
+      // Parse and set the offline items and download links from localStorage
+      const offlineItemsData: OfflineItem[] = JSON.parse(storedOfflineItems);
+      const downloadLinksData: { [key: string]: string } = JSON.parse(storedDownloadLinks);
 
-        setOfflineItems(data);
-        setDownloadLinks(links);
-      } catch (error) {
-        console.error("Failed to fetch PDFs:", error);
-      }
-    };
-
-    fetchOfflineItems();
-  }, []);
+      setOfflineItems(offlineItemsData);
+      setDownloadLinks(downloadLinksData);
+    } else {
+      // If no data is in localStorage, show a message or handle the scenario where data is missing
+      console.warn("No offline items found in localStorage. The app might be running without any data.");
+    }
+  }, []); // This runs only once on component mount
 
   // Split items into two columns
   const mid = Math.ceil(offlineItems.length / 2);
@@ -60,28 +50,36 @@ const OfflineMode: React.FC = () => {
             <div style={{ display: "flex", justifyContent: "space-between" }}>
               {/* Left Column */}
               <ul style={{ flex: 1, marginRight: "20px", listStyleType: "none", padding: 0 }}>
-                {leftColumn.map((item) => (
-                  <li key={item.item_code} style={{ marginBottom: "10px" }}>
-                    <strong>{item.item_code}</strong>
-                    <br />
-                    <a href={downloadLinks[item.item_code]} download={`${item.item_code}.pdf`}>
-                      Download Instructions (PDF)
-                    </a>
-                  </li>
-                ))}
+                {leftColumn.length > 0 ? (
+                  leftColumn.map((item) => (
+                    <li key={item.item_code} style={{ marginBottom: "10px" }}>
+                      <strong>{item.item_code}</strong>
+                      <br />
+                      <a href={downloadLinks[item.item_code]} download={`${item.item_code}.pdf`}>
+                        Download Instructions (PDF)
+                      </a>
+                    </li>
+                  ))
+                ) : (
+                  <li>No offline items available.</li>
+                )}
               </ul>
 
               {/* Right Column */}
               <ul style={{ flex: 1, listStyleType: "none", padding: 0 }}>
-                {rightColumn.map((item) => (
-                  <li key={item.item_code} style={{ marginBottom: "10px" }}>
-                    <strong>{item.item_code}</strong>
-                    <br />
-                    <a href={downloadLinks[item.item_code]} download={`${item.item_code}.pdf`}>
-                      Download Instructions (PDF)
-                    </a>
-                  </li>
-                ))}
+                {rightColumn.length > 0 ? (
+                  rightColumn.map((item) => (
+                    <li key={item.item_code} style={{ marginBottom: "10px" }}>
+                      <strong>{item.item_code}</strong>
+                      <br />
+                      <a href={downloadLinks[item.item_code]} download={`${item.item_code}.pdf`}>
+                        Download Instructions (PDF)
+                      </a>
+                    </li>
+                  ))
+                ) : (
+                  <li>No offline items available.</li>
+                )}
               </ul>
             </div>
           </div>
