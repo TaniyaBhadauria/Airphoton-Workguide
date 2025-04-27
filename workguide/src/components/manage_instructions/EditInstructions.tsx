@@ -34,7 +34,7 @@ const EditInstructions: React.FC = () => {
 
       {showForm && (
         <Modal onClose={handleCloseModal}>
-          <FeedbackForm />
+          <FeedbackForm onClose={handleCloseModal} /> {/* pass onClose */}
         </Modal>
       )}
     </div>
