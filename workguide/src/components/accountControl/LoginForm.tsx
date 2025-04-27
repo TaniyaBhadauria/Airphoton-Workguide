@@ -41,6 +41,14 @@ export const LoginForm: React.FC = () => {
       // Check if the password matches the response password
       if (data.password === password) {
           localStorage.setItem("username", username);
+
+          const response = await fetch(`https://y-eta-lemon.vercel.app/api/user?username=${username}`);
+          if (!response.ok) throw new Error("User not found or an error occurred");
+
+          const data = await response.json();
+
+                  // localStorage to set user data
+          localStorage.setItem("role", data.role);
         navigate("/lib"); // Redirect to the home page
       } else {
         setError("Invalid password. Please try again.");

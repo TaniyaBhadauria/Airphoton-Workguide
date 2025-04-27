@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 export const Navigation: React.FC = () => {
   const [checked, setChecked] = useState<boolean>(navigator.onLine); // Default state based on the current network status
   const navigate = useNavigate();
+  const role = localStorage.getItem("role");
 
   // Method to handle the toggle change
   const handleChange = (checked: boolean) => {
@@ -56,13 +57,27 @@ export const Navigation: React.FC = () => {
           <a href="/lib" className={styles.menuLink}>
             Library
           </a>
-          <a href="/feedbacks" className={styles.menuLink}>
+          <a
+            href={role === "admin" ? "/feedbacks" : "#"}
+            onClick={(e) => { if (role !== "admin") e.preventDefault(); }}
+            className={styles.menuLink}
+            title={role !== "admin" ? "Only admins can access this." : ""}
+          >
             Manage Feedback
           </a>
           <a href="/versions" className={styles.menuLink}>
             Change Log
           </a>
-          <a href="/edit-instructions" className={styles.menuLink}>
+          <a
+            href={(role === "admin" || role === "technician") ? "/edit-instructions" : "#"}
+            onClick={(e) => {
+              if (role !== "admin" && role !== "technician") {
+                e.preventDefault();
+              }
+            }}
+            className={styles.menuLink}
+            title={role !== "admin" && role !== "technician" ? "Only admins and technicians can access this." : ""}
+          >
             Manage Instructions
           </a>
         </div>

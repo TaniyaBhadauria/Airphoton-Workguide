@@ -12,6 +12,7 @@ import  Feedbacks  from './components/manage_feedback/ManageFeedback'
 import  OfflineMode  from './components/offline/offline'
 import  Notification  from './components/notification/Notification'
 import  UserNotification  from './components/notification/UserNotification'
+import  WorkInstructionsPage  from './components/help/Workguide'
 import { store } from "./redux/store";;
 
 const App: React.FC = () => {
@@ -30,6 +31,7 @@ const App: React.FC = () => {
            <Route path="/user-notifications" element={<UserNotification />} />
            <Route path="/edit-instructions" element={<EditInstructions />} />
            <Route path="/offline" element={<OfflineMode />} />
+           <Route path="/help" element={<WorkInstructionsPage />} />
         </Routes>
         </Provider>
     </Router>

@@ -51,6 +51,15 @@ export const CreateAccountForm: React.FC = () => {
       if (response.ok) {
         // If the response is successful, show success message and redirect
         setSuccessMessage("Account created successfully! Redirecting...");
+          //get username to find role to declare it locally for global access for the session
+          const username = localStorage.getItem("username");
+          const response = await fetch(`https://y-eta-lemon.vercel.app/api/user?username=${username}`);
+          if (!response.ok) throw new Error("User not found or an error occurred");
+
+          const data = await response.json();
+
+                  // localStorage to set user data
+          localStorage.setItem("role", data.role);
         setTimeout(() => navigate("/lib"), 2000); // Redirect to the '/lib' page after 2 seconds
       } else {
         setError(data.error || "Signup failed. Please try again."); // Show error message if the request failed

@@ -6,15 +6,19 @@ import { AvatarIcon } from "./icons/AvatarIcon"; // Importing the AvatarIcon com
 
 // UserControls component that renders icons and labels for user-related actions
 export const UserControls: React.FC = () => {
+    const role = localStorage.getItem("role");
   return (
     <div className={styles.userControls}> {/* Container for user control items */}
 
       {/* Notification control item */}
       <div className={styles.controlItem}>
         {/* Notification icon */}
-        <NotificationIcon />
-        {/* Label for the notification section */}
-        <a href="/notifications" className={styles.controlLabel}>Notifications</a>
+        {role === "admin" && (
+          <>
+            <NotificationIcon />
+            <a href="/notifications" className={styles.controlLabel}>Notifications</a>
+          </>
+        )}
       </div>
 
       {/* Help control item */}
@@ -22,7 +26,7 @@ export const UserControls: React.FC = () => {
         {/* Help icon */}
         <HelpIcon />
         {/* Label for the help section */}
-        <span className={styles.controlLabel}>Help</span>
+        <a href="/help" className={styles.controlLabel}>Help</a>
       </div>
 
       {/* User control item */}
