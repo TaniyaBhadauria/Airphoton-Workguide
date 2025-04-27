@@ -51,11 +51,13 @@ export const LoginForm: React.FC = () => {
           localStorage.setItem("role", data.role);
         navigate("/lib"); // Redirect to the home page
       } else {
+          alert("Invalid password. Please try again.")
         setError("Invalid password. Please try again.");
       }
     } catch (error) {
       console.error("Error:", error); // Log any errors that occur
       setError("An error occurred. Please try again later.");
+       alert("Invalid password. Please try again.")
     }
   };
 
