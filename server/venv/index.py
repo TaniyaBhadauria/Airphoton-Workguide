@@ -183,7 +183,7 @@ def get_all_items():
 
 @app.route('/')
 def home():
-    return 'Home Page Route - nice work Andrew!!!'
+    return 'Home Page Route'
 
 
 @app.route('/api/user', methods=['GET'])
@@ -769,3 +769,161 @@ def update_user(username):
         return jsonify({"error": str(e)}), 500
     finally:
         conn.close()
+
+GITHUB_API_URL = 'https://api.github.com'
+REPO_OWNER = 'TaniyaBhadauria'  # GitHub username
+REPO_NAME = 'apps-wi'  # Repository name
+MAIN_BRANCH = 'master'  # Default branch (main)
+NEW_BRANCH = 'feature-branch'  # New branch where changes will be committed
+GITHUB_TOKEN = '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'  # Your GitHub token for authentication
+
+# Function to create a new branch based on the main branch
+def create_new_branch():
+    # Get the latest commit SHA from the main branch
+    url = f'{GITHUB_API_URL}/repos/{REPO_OWNER}/{REPO_NAME}/git/refs/heads/{MAIN_BRANCH}'
+    response = requests.get(url, headers={'Authorization': f'token {GITHUB_TOKEN}'})
+    if response.status_code != 200:
+        raise Exception(f"Error fetching main branch ref: {response.status_code} - {response.text}")
+    
+    commit_sha = response.json()['object']['sha']
+    
+    # Create the new branch based on the main branch commit SHA
+    new_branch_ref = f'refs/heads/{NEW_BRANCH}'
+    data = {
+        'ref': new_branch_ref,
+        'sha': commit_sha
+    }
+    
+    # Create new branch
+    create_branch_url = f'{GITHUB_API_URL}/repos/{REPO_OWNER}/{REPO_NAME}/git/refs'
+    create_branch_response = requests.post(create_branch_url, json=data, headers={'Authorization': f'token {GITHUB_TOKEN}'})
+    
+    if create_branch_response.status_code == 201:
+        return NEW_BRANCH
+    else:
+        raise Exception(f"Error creating new branch: {create_branch_response.status_code} - {create_branch_response.text}")
+
+# Function to create or update a file in the GitHub repository
+def create_or_update_github_file(path, content, message, branch):
+    # Get the file's current state from GitHub
+    url = f'{GITHUB_API_URL}/repos/{REPO_OWNER}/{REPO_NAME}/contents/{path}'
+    
+    # Check if the file exists to determine if it's an update or a new file
+    response = requests.get(url, headers={'Authorization': f'token {GITHUB_TOKEN}'})
+    
+    if response.status_code == 200:  # File exists, update it
+        sha = response.json()['sha']
+        data = {
+            'message': message,
+            'content': base64.b64encode(content.encode('utf-8')).decode('utf-8'),
+            'sha': sha,
+            'branch': branch
+        }
+        update_response = requests.put(url, json=data, headers={'Authorization': f'token {GITHUB_TOKEN}'})
+        return update_response.json()
+    
+    elif response.status_code == 404:  # File does not exist, create it
+        data = {
+            'message': message,
+            'content': base64.b64encode(content.encode('utf-8')).decode('utf-8'),
+            'branch': branch
+        }
+        create_response = requests.put(url, json=data, headers={'Authorization': f'token {GITHUB_TOKEN}'})
+        return create_response.json()
+
+    else:
+        raise Exception(f"Error checking file: {response.status_code} - {response.text}")
+
+# Function to upload media files to GitHub directly (without local storage)
+def upload_media_files_to_github(branch):
+    for media_file in request.files.values():
+        if media_file:
+            file_content = base64.b64encode(media_file.read()).decode('utf-8')
+            target_path = f'media/{media_file.filename}'
+            create_or_update_github_file(target_path, file_content, f"Add {media_file.filename} to media folder", branch)
+
+@app.route('/submitForm', methods=['POST'])
+def submit_form():
+    try:
+        # Create a new branch
+        new_branch = create_new_branch()
+
+        # Get form fields
+        item_code = request.form.get('itemCode')
+        item_name = request.form.get('itemName')
+        bom_code = request.form.get('bomCode')
+        
+        # Check if cover image is provided, else set it to the placeholder
+        cover_image = request.files.get('coverImage')
+        cover_image_path = None
+        if cover_image:
+            cover_image_path = f'./media/{cover_image.filename}'
+        else:
+            cover_image_path = './media/placeholder.svg'
+
+        # Initialize instructions list
+        instructions = []
+
+        # Loop through steps and collect title, content, and media
+        step_count = 0
+        while True:
+            step_title = request.form.get(f'step_{step_count + 1}_title')
+            step_content = request.form.get(f'step_{step_count + 1}_content')
+
+            if not step_title or not step_content:
+                break  # Exit the loop if no more steps are present
+            
+            # Initialize step data
+            step_data = {
+                'type': 'instruction',
+                'title': step_title,
+                'content': step_content,
+                'media': []
+            }
+
+            # Handle media files for each step
+            media_count = 1
+            while True:
+                media_file = request.files.get(f'step_{step_count + 1}_media_{media_count}')
+                if media_file:
+                    # Directly upload the media file to GitHub without saving locally
+                    step_data['media'].append(f'./media/{media_file.filename}')
+                else:
+                    # If no media file is provided, set the placeholder
+                    step_data['media'].append('./media/placeholder.svg')
+                media_count += 1
+
+                # Exit the loop if no more media files are provided
+                if not request.files.get(f'step_{step_count + 1}_media_{media_count}'):
+                    break
+
+            # Add the step data to instructions
+            instructions.append(step_data)
+
+            step_count += 1
+
+        # Prepare the data for YAML
+        form_data = {
+            'item_code': item_code,
+            'item_name': item_name,
+            'bom_code': bom_code,
+            'cover_image': cover_image_path,
+            'steps': instructions
+        }
+
+        # Convert the form data into YAML format
+        yaml_content = yaml.dump(form_data, default_flow_style=False)
+
+        # Upload YAML to GitHub
+        create_or_update_github_file('form_data.yaml', yaml_content, 'Add form data YAML file', new_branch)
+
+        # Upload media files to GitHub
+        upload_media_files_to_github(new_branch)
+
+        # Return a response indicating success
+        return jsonify({'message': 'Form submitted, YAML and media files uploaded to GitHub successfully'})
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
