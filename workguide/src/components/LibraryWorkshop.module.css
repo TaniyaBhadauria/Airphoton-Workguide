@@ -184,6 +184,7 @@
   width: 100%;
 }
 
+
 .resultsTitle {
   color: #000;
   margin-top: 40px;
@@ -244,6 +245,7 @@
   max-width: 100%;
   height: 1px;
   margin-top: 60px;
+  margin-left: 150px;
 }
 
 @media (width <= 991px) {
@@ -261,7 +263,7 @@
   width: 1088px;
   max-width: 100%;
   margin-top: 8px;
-  margin-left: 19px;
+  margin-left: 150px;
   display: flex;
 }
 

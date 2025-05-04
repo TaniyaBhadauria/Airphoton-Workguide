@@ -16,12 +16,6 @@ export default function LibraryWorkshop() {
 
       {/* Render the SearchResults component to display the search results */}
       <SearchResults />
-
-      {/* Horizontal line to separate the main content and footer */}
-      <hr className={styles.divider} />
-
-      {/* Render the SearchFooter component to display footer content like the number of results */}
-      <SearchFooter />
     </main>
   );
 }

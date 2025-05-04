@@ -51,14 +51,14 @@ export const RolesTable: React.FC = () => {
           </tr>
           <tr>
             <td className={styles.cell}>Intern</td>
-            <td className={styles.cell}>Create, Delete, Edit</td>
+            <td className={styles.cell}>View</td>
             <td className={styles.cellRequest} onClick={() => handleRequestRole("Intern")}>
                           Click to request
                         </td>
           </tr>
           <tr>
             <td className={styles.cell}>Technician</td>
-            <td className={styles.cell}>View</td>
+            <td className={styles.cell}>Create, Edit, View</td>
             <td className={styles.cellRequest} onClick={() => handleRequestRole("Technician")}>
                           Click to request
                         </td>

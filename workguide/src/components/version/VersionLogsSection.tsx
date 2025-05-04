@@ -8,7 +8,6 @@ import ResultsSummary from "./ResultsSummary";
 const VersionLogsSection: React.FC = () => {
   return (
     <section className={styles.versionLogs}>
-      <SearchBar />
       <VersionTable />
     </section>
   );

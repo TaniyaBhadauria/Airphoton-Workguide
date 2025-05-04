@@ -1,7 +1,9 @@
+"use client";
 import React, { useEffect, useState } from "react";
 import styles from "./VersionTable.module.css";
+import stylesBar from "./SearchBar.module.css";
 
-// Define TypeScript interfaces for API response
+// Define TypeScript interfaces
 interface FileChange {
   filename: string;
   changes: string;
@@ -29,11 +31,11 @@ const VersionTable: React.FC = () => {
   const [selectedFile, setSelectedFile] = useState<FileChange | null>(null);
   const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
   const [isFileChangesPopupOpen, setIsFileChangesPopupOpen] = useState<boolean>(false);
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Replace this with your GitHub API call
         const repoOwner = "TaniyaBhadauria";
         const repoName = "apps-wi";
         const numCommits = 10;
@@ -49,24 +51,20 @@ const VersionTable: React.FC = () => {
 
         for (let commit of commits) {
           const commitData = {
-            sha: commit.sha.slice(0, 7), // Only the first 7 characters of SHA
+            sha: commit.sha.slice(0, 7),
             message: commit.commit.message,
             author: commit.commit.author.name,
             date: commit.commit.author.date,
             files: [],
           };
 
-          // Fetch details of each commit (for files and changes)
-          const commitUrl = commit.url;
-          const commitResponse = await fetch(commitUrl);
-
+          const commitResponse = await fetch(commit.url);
           if (commitResponse.ok) {
             const commitDetails = await commitResponse.json();
-
             if (commitDetails.files) {
               commitData.files = commitDetails.files.map((file: any) => ({
                 filename: file.filename,
-                changes: file.patch || "No diff available", // Handle missing patch data
+                changes: file.patch || "No diff available",
               }));
             }
           }
@@ -74,7 +72,6 @@ const VersionTable: React.FC = () => {
           commitInfo.push(commitData);
         }
 
-        // Transform API data to match table format
         const formattedData: TableRow[] = commitInfo.map((commit, index) => ({
           date: new Date(commit.date).toLocaleString(),
           version: `v.${(index + 1).toString().padStart(2, "0")}`,
@@ -94,28 +91,48 @@ const VersionTable: React.FC = () => {
 
   useEffect(() => {
     if (isPopupOpen) {
-      document.body.classList.add(styles.bodyBlur); // Apply blur effect to body
+      document.body.classList.add(styles.bodyBlur);
     } else {
-      document.body.classList.remove(styles.bodyBlur); // Remove blur effect from body
+      document.body.classList.remove(styles.bodyBlur);
     }
 
     return () => {
-      document.body.classList.remove(styles.bodyBlur); // Cleanup the blur effect when component unmounts or popup is closed
+      document.body.classList.remove(styles.bodyBlur);
     };
   }, [isPopupOpen]);
 
   const handleViewFileChanges = (file: FileChange) => {
     setSelectedFile(file);
-    setIsFileChangesPopupOpen(true); // Open file changes popup
+    setIsFileChangesPopupOpen(true);
   };
 
   const handleCardClick = (commit: TableRow) => {
     setSelectedCommit(commit);
-    setIsPopupOpen(true); // Open file selection popup
+    setIsPopupOpen(true);
   };
+
+  const filteredData = tableData.filter((row) =>
+    row.author.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div>
+      {/* Search Bar */}
+      <div className={stylesBar.searchBarContainer}>
+        <div className={stylesBar.searchInput}>
+
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Search by author..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
+        <button className={stylesBar.searchButton}>Search</button>
+      </div>
+
+      {/* Version Table */}
       <table className={styles.versionTable}>
         <thead>
           <tr>
@@ -127,7 +144,7 @@ const VersionTable: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-          {tableData.map((row, index) => (
+          {filteredData.map((row, index) => (
             <tr key={index}>
               <td className={styles.cell}>{row.date}</td>
               <td className={styles.cell}>{row.version}</td>
@@ -146,7 +163,7 @@ const VersionTable: React.FC = () => {
         </tbody>
       </table>
 
-      {/* If a commit is selected, show the card with file names */}
+      {/* File List Popup */}
       {selectedCommit && isPopupOpen && (
         <div className={styles.popupcard}>
           <div className={styles.popupContent}>
@@ -176,7 +193,7 @@ const VersionTable: React.FC = () => {
         </div>
       )}
 
-      {/* If the file changes popup is open */}
+      {/* File Changes Popup */}
       {isFileChangesPopupOpen && selectedFile && (
         <div className={styles.popup}>
           <div className={styles.popupContent}>
@@ -192,18 +209,14 @@ const VersionTable: React.FC = () => {
         </div>
       )}
 
-      {/* Blur the background when the popup is open */}
       {isPopupOpen && <div className={styles.backgroundBlur} />}
+
       <hr className={styles.divider} />
       <div className={styles.summary}>
-        <span className={styles.resultCount}>6 Search Results</span>
+        <span className={styles.resultCount}>
+          {filteredData.length} Search Results
+        </span>
         <a href="#" className={styles.moreLink}>
-          <span>Show me more results</span>
-          <img
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/809a93c48a988bdddd7aaf5798dcdf7f8cc556a8?placeholderIfAbsent=true&apiKey=60aae364d73645da910bcd623ed1d086"
-            alt="Show more"
-            className={styles.moreIcon}
-          />
         </a>
       </div>
     </div>
