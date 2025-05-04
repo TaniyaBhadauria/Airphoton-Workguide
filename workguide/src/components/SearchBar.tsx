@@ -93,19 +93,7 @@ export function SearchBar() {
       </div>
 
       {/* Dropdown for selecting a category */}
-      <select
-        className={styles.dropdown} // Styling for the dropdown
-        value={selectedCategory} // Bind the selected category state to the dropdown value
-        onChange={(e) => setSelectedCategory(e.target.value)} // Update selected category on change
-      >
-        <option value="">Select a category</option> {/* Default option */}
-        {/* Map through the categories and create dropdown options */}
-        {categories.map((category, index) => (
-          <option key={index} value={category}>
-            {category}
-          </option>
-        ))}
-      </select>
+
 
       {/* Search button that triggers the search */}
       <button className={styles.searchButton} onClick={() => handleSearch(searchTerm)}>
