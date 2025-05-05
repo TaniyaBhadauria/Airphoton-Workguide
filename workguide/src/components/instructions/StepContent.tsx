@@ -112,7 +112,7 @@ export const StepContent: React.FC<StepContentProps> = ({
             <button className={styles.closeButton} onClick={() => setIsFeedbackOpen(false)}>
               ✖ {/* Close button for the feedback modal */}
             </button>
-            <FeedbackForm /> {/* Feedback form component */}
+            <FeedbackForm onClose={() => setIsFeedbackOpen(false)} /> {/* Feedback form component */}
           </div>
         </div>
       )}

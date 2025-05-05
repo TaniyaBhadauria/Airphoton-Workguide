@@ -124,4 +124,13 @@
   color: #6c757d;
   margin-top: 8px;
 }
+.closeButton {
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
 

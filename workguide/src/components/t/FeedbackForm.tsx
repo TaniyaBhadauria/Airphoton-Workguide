@@ -9,7 +9,11 @@ type ExperienceRating =
   | "very-satisfied"
   | null;
 
-const FeedbackForm: React.FC = () => {
+interface FeedbackFormProps {
+  onClose: () => void;
+}
+
+const FeedbackForm: React.FC<FeedbackFormProps> = ({ onClose }) => {
   const [feedbackType, setFeedbackType] = React.useState("Bug");
   const [comment, setComment] = React.useState("");
   const [file, setFile] = React.useState<File | null>(null);
@@ -64,6 +68,14 @@ const FeedbackForm: React.FC = () => {
     <form onSubmit={handleSubmit} className={styles.feedbackModal}>
       <header className={styles.modalHeader}>
         <i className={styles.backIcon} aria-hidden="true" />
+        <button
+                  type="button"
+                  className={styles.closeButton}
+                  onClick={onClose}
+                  aria-label="Close Feedback Form"
+                >
+                  ✖
+                </button>
         <h1 className={styles.modalTitle}>Feedback</h1>
       </header>
 
