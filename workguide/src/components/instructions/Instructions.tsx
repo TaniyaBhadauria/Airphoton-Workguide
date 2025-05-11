@@ -38,7 +38,7 @@ const Instructions: React.FC = () => {
       <Navigation />
       <div className={styles.heroImage} role="img" aria-label="Hero image">
         <div className={styles.libHeading}>
-          Breather Vent Installation Instructions
+          Instructions
           <button className={styles.button} onClick={handleDownload}>
                             Download Instructions
                           </button>

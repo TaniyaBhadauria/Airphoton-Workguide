@@ -5,6 +5,7 @@ import FeedbackForm from "../t/FeedbackForm"; // Importing FeedbackForm for the 
 import RunSheetForm from "../fill_runsheet/RunSheetForm"; // Importing RunSheetForm for the run sheet modal
 import FormHeader from "../fill_runsheet/FormHeader"; // Importing FormHeader for run sheet form header
 import BasicInformation from "../fill_runsheet/BasicInformation"; // Importing BasicInformation for run sheet form
+import ReactMarkdown from "react-markdown";
 
 // Interface for the props passed to the StepContent component
 interface StepContentProps {
@@ -95,7 +96,9 @@ export const StepContent: React.FC<StepContentProps> = ({
               thumbnails={media.slice(1).map((m) => m.media_path)} // Display thumbnails of additional images
             />
             <div className={styles.instructionsContainer}> {/* Container for the step instructions */}
-              <p className={styles.instructionsText} dangerouslySetInnerHTML={{ __html: content.replace(/\n/g, "<br>") }}></p> {/* Render the step content with HTML */}
+              <div className={styles.instructionsText}>
+                <ReactMarkdown>{content}</ReactMarkdown>
+              </div>
               <footer className={styles.footer}> {/* Footer for the step content */}
                 <button className={styles.button} onClick={() => setIsFeedbackOpen(true)}>
                   Submit Feedback {/* Button to open the feedback form modal */}

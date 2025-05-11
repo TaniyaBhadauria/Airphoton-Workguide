@@ -1,42 +1,49 @@
-// "use client" enables the component to run on the client-side (React-specific behavior)
 "use client";
 
-import * as React from "react"; // Importing React to enable JSX and component functionality
-import styles from "./InstallationGuide.module.css"; // Importing CSS module for styling the component
+import React, { useState, useEffect } from "react";
+import styles from "./InstallationGuide.module.css";
 
-// Defining the prop types for the ImageGallery component
 interface ImageGalleryProps {
-  mainImage: string; // URL for the main image
-  thumbnails: string[]; // Array of URLs for thumbnail images
+  mainImage: string;
+  thumbnails: string[];
 }
 
-// ImageGallery component displaying a main image and a grid of thumbnail images
 export const ImageGallery: React.FC<ImageGalleryProps> = ({
   mainImage,
   thumbnails,
 }) => {
-  return (
-    <div className={styles.galleryContainer}> {/* Container for the whole gallery */}
+  const [selectedImage, setSelectedImage] = useState(mainImage);
 
-      {/* Main image container */}
+  // Reset selected image when the main image changes (i.e., on step change)
+  useEffect(() => {
+    setSelectedImage(mainImage);
+  }, [mainImage]);
+
+  // Combine all images and filter out the currently selected one
+  const allImages = [mainImage, ...thumbnails].filter(
+    (img) => img !== selectedImage
+  );
+
+  return (
+    <div className={styles.galleryContainer}>
+      {/* Main image */}
       <figure className={styles.mainImageContainer}>
-        {/* Display the main image */}
         <img
-          src={mainImage} // Source of the main image
-          alt="Installation Step" // Alt text for accessibility
-          className={styles.mainImage} // Applying styles to the main image
+          src={selectedImage}
+          alt="Installation Step"
+          className={styles.mainImage}
         />
       </figure>
 
-      {/* Grid of thumbnail images */}
+      {/* Thumbnails (excluding selected image) */}
       <div className={styles.thumbnailGrid}>
-        {/* Map over the thumbnails array and render each thumbnail */}
-        {thumbnails.map((thumbnail, index) => (
+        {allImages.map((thumbnail, index) => (
           <img
-            key={index} // Using the index as a key for list items
-            src={thumbnail} // Source of each thumbnail image
-            alt={`Detail ${index + 1}`} // Descriptive alt text for each thumbnail
-            className={styles.thumbnail} // Applying styles to each thumbnail
+            key={index}
+            src={thumbnail}
+            alt={`Detail ${index + 1}`}
+            className={styles.thumbnail}
+            onClick={() => setSelectedImage(thumbnail)}
           />
         ))}
       </div>

@@ -366,3 +366,34 @@
   flex-direction: column;
   gap: 0.75rem; /* Reduced gap */
 }
+.thumbnail {
+  cursor: pointer;
+  opacity: 0.6;
+  border-radius: 4px;
+  transition: opacity 0.2s ease;
+}
+
+.thumbnail:hover {
+  opacity: 1;
+}
+
+.selectedThumbnail {
+  opacity: 1;
+  border: 2px solid #007bff; /* Highlight selected thumbnail */
+}
+.mainImageContainer {
+  width: 500px;       /* Or any size you want */
+  height: 200px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #ccc;
+  margin-bottom: 1rem;
+}
+
+.mainImage {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain; /* Ensures image fits within container without distortion */
+}
