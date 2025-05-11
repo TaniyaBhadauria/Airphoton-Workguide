@@ -4,6 +4,8 @@ import { RootState } from "../redux/store";
 import { useNavigate } from "react-router-dom";
 import styles from "./LibraryWorkshop.module.css";
 import { SearchFooter } from "./SearchFooter";
+import { useDispatch } from "react-redux";
+import { setItemCode } from "../redux/itemCodeSlice";
 
 interface OfflineItem {
   item_code: string;
@@ -11,6 +13,7 @@ interface OfflineItem {
 }
 
 export function SearchResults() {
+    const dispatch = useDispatch();
   const itemCode = useSelector((state: RootState) => state.itemCode.itemCode);
 
   const [allItems, setAllItems] = useState<any[]>([]);
@@ -18,6 +21,7 @@ export function SearchResults() {
   const [isSearching, setIsSearching] = useState<boolean>(false);
   const [offlineItems, setOfflineItems] = useState<OfflineItem[]>([]);
   const [downloadLinks, setDownloadLinks] = useState<{ [key: string]: string }>({});
+  const [viewMode, setViewMode] = useState<"gallery" | "list">("gallery");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -60,6 +64,7 @@ export function SearchResults() {
   }, []);
 
   const handleItemClick = (itemId: string) => {
+       dispatch(setItemCode(itemId));
     navigate(`/instructions`);
   };
 
@@ -72,39 +77,75 @@ export function SearchResults() {
     }
   }, [itemCode, allItems]);
 
+
+  const renderGalleryView = () => (
+  <div className={styles.headerRows}>
+    <h5>Available Items</h5>
+    <div className={styles.contentGrids}>
+      {allItems.map((item, index) => (
+        <div key={index} className={styles.galleryCard} onClick={() => handleItemClick(item.item_id)}>
+          <img
+            src={`data:image/png;base64,${item.image_name}`}
+            alt={`Item ${item.item_id}`}
+            className={styles.galleryImage}
+          />
+          <div className={styles.galleryCaption}>{item.item_id}</div>
+        </div>
+      ))}
+    </div>
+    </div>
+  );
+
+  const renderListView = () => (
+  <div>
+  <h5>Available Items</h5>
+    <div className={styles.listContainer }>
+      {allItems.map((item, index) => (
+        <div key={index} className={styles.listItem} onClick={() => handleItemClick(item.item_id)}>
+          <div className={styles.listText}>{item.item_id}</div>
+        </div>
+      ))}
+    </div>
+  </div>
+  );
+
   return (
     <section className={styles.resultsContainer}>
-      {!itemCode && allItems.length > 0 ? (
-        <div className={styles.contentGrid}>
-          <div className={styles.contentCard}>
-            <div className={styles.cardGrid}>
-              <div className={styles.libHeading}>Available Items</div>
-              {allItems.map((item, index) => (
-                <div key={index} className={styles.itemCard}>
-                  <div className={styles.libHeading}>{item.item_id}</div>
-                </div>
-              ))}
+    <div className={styles.headerRow}>
+            <div className={styles.toggleButtons}>
+              <button
+                className={`${styles.toggleButton} ${viewMode === "gallery" ? styles.active : ""}`}
+                onClick={() => setViewMode("gallery")}
+              >
+                Gallery
+              </button>
+              <button
+                className={`${styles.toggleButton} ${viewMode === "list" ? styles.active : ""}`}
+                onClick={() => setViewMode("list")}
+              >
+                List
+              </button>
             </div>
           </div>
-        </div>
-      ) : isSearching ? (
-        <p>Loading...</p>
-      ) : filteredItem ? (
+      {!itemCode && allItems.length > 0 ? (
+              viewMode === "gallery" ? renderGalleryView() : renderListView()
+            ) : isSearching ? (
+              <p>Loading...</p>
+            ) : filteredItem ? (
         <div>
-          <h2 className={styles.resultsTitle}>Search Results</h2>
-          <figure className={styles.resultsFigure}>
-            <img
-              src={`data:image/png;base64,${filteredItem.image_name}`}
-              alt="Item"
-              className={styles.resultsImage}
-            />
-            <figcaption
-              className={styles.resultsCaption}
-              onClick={() => handleItemClick(filteredItem.item_id)}
-            >
-              {filteredItem.item_id}
-            </figcaption>
-          </figure>
+          <div className={styles.headerRows} >
+            <h2 className={styles.resultsTitle}>Search Results</h2>
+            <div className={`${styles.contentGrids} ${styles.shiftRight}`}>
+              <div className={styles.galleryCard} onClick={() => handleItemClick(filteredItem.item_id)}>
+                <img
+                  src={`data:image/png;base64,${filteredItem.image_name}`}
+                  alt={`Item ${filteredItem.item_id}`}
+                  className={styles.galleryImage}
+                />
+                <div className={styles.galleryCaption}>{filteredItem.item_id}</div>
+              </div>
+            </div>
+          </div>
         </div>
       ) : (
         <div className={styles.contentGrid}>
