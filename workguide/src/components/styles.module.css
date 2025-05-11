@@ -134,8 +134,9 @@
   color: #fff;
   background-color: #000;
   border-radius: 0.25rem;
-  padding: 0.3rem 1.5rem;
-  margin-left: 500px;
+  padding: 0.2rem 1rem; /* Reduced padding */
+  margin-left: 1000px; /* Reduced left margin */
+  font-size: 0.875rem; /* Reduced font size */
 }
 
 .toggleContainer {
