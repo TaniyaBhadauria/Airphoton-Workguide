@@ -100,9 +100,11 @@ export const StepContent: React.FC<StepContentProps> = ({
                 <ReactMarkdown>{content}</ReactMarkdown>
               </div>
               <footer className={styles.footer}> {/* Footer for the step content */}
-                <button className={styles.button} onClick={() => setIsFeedbackOpen(true)}>
-                  Submit Feedback {/* Button to open the feedback form modal */}
-                </button>
+                <div className={styles.floatingFeedbackButton}>
+                  <button className={styles.feedbackFlag} onClick={() => setIsFeedbackOpen(true)}>
+                    🏳️ Feedback
+                  </button>
+                </div>
               </footer>
             </div>
           </div>

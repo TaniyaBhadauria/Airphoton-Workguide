@@ -272,3 +272,29 @@
   margin-top: 131px;
   border: none;
 }
+.commentBox {
+  margin-top: 1rem;
+}
+
+.commentInput {
+  width: 100%;
+  min-height: 80px;
+  padding: 0.5rem;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.submitCommentButton {
+  margin-top: 0.5rem;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.submitCommentButton:hover {
+  background-color: #45a049;
+}

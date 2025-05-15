@@ -18,6 +18,8 @@ const VersionTable: React.FC = () => {
   const [tableData, setTableData] = useState<FeedbackData[]>([]);
   const [selectedFeedback, setSelectedFeedback] = useState<FeedbackData | null>(null);
   const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
+  const [reviewerComment, setReviewerComment] = useState<string>("");
+  const [reviewerComments, setReviewerComments] = useState<{ reviewer: string; reviewer_comment: string }[]>([]);
 
   useEffect(() => {
     const fetchFeedback = async () => {
@@ -46,9 +48,50 @@ const VersionTable: React.FC = () => {
     };
   }, [isPopupOpen]);
 
-  const handleViewMore = (feedback: FeedbackData) => {
+  const handleViewMore =  async (feedback: FeedbackData) => {
     setSelectedFeedback(feedback);
     setIsPopupOpen(true);
+     try {
+        const res = await fetch(`https://y-eta-lemon.vercel.app/get_feedback_comments/${feedback.id}`);
+        const comments = await res.json();
+        setReviewerComments(comments);
+      } catch (error) {
+        console.error("Error fetching reviewer comments:", error);
+        setReviewerComments([]);
+      }
+  };
+
+  const handleSubmitComment = async () => {
+    if (!selectedFeedback) return;
+
+    const reviewer_name = localStorage.getItem("username") || "Anonymous";
+
+    try {
+      const response = await fetch("https://y-eta-lemon.vercel.app/add_feedback_comment", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        mode: "cors",
+        body: JSON.stringify({
+          feedback_id: selectedFeedback.id,
+          reviewer: reviewer_name,
+          reviewer_comment: reviewerComment,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to submit comment");
+      }
+
+      alert("Comment submitted successfully");
+      setReviewerComment(""); // clear after submit
+      // 👇 Fetch updated reviewer comments
+      await handleViewMore(selectedFeedback);
+    } catch (error) {
+      console.error("Error submitting comment:", error);
+      alert("Failed to submit comment");
+    }
   };
 
   const handleResolve = async (comment: string) => {
@@ -129,9 +172,34 @@ const VersionTable: React.FC = () => {
                 />
               </div>
             )}
+            <div className={styles.reviewerCommentsSection}>
+              <h4>Reviewer Comments</h4>
+              {reviewerComments.length > 0 ? (
+                reviewerComments.map((comment, index) => (
+                  <div key={index} className={styles.reviewerComment}>
+                    <strong>{comment.reviewer}:</strong> {comment.reviewer_comment}
+                  </div>
+                ))
+              ) : (
+                <p>No reviewer comments yet.</p>
+              )}
+            </div>
 
+
+            <div className={styles.commentBox}>
+              <h4>Add Reviewer Comment</h4>
+              <textarea
+                value={reviewerComment}
+                onChange={(e) => setReviewerComment(e.target.value)}
+                placeholder="Enter your comment"
+                className={styles.commentInput}
+              />
+              <button className={styles.submitCommentButton} onClick={handleSubmitComment}>
+                Submit Comment
+              </button>
+            </div>
             <button className={styles.closeButton} onClick={() => handleResolve(selectedFeedback.comment)}>
-              Resolve
+                          Resolve
             </button>
             <button className={styles.closeButton} onClick={() => setIsPopupOpen(false)}>
               Close

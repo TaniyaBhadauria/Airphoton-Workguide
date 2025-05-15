@@ -12,11 +12,7 @@ const Feedbacks: React.FC = () => {
       <Header />
       <Navigation />
       <div className={styles.heroImage} role="img" aria-label="Hero image" >
-      <div className={styles.libHeading}>
-              User Feedbacks
-      </div>
-             <VersionLogsSection />
-
+      <VersionLogsSection />
       </div>
     </div>
   );
