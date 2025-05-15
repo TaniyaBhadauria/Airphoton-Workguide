@@ -926,4 +926,41 @@ def submit_form():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+@app.route("/add_feedback_comment", methods=["POST"])
+def add_feedback_comment():
+    data = request.json
+    feedback_id = data.get("feedback_id")
+    reviewer_name = data.get("reviewer")
+    reviewer_comment = data.get("reviewer_comment")
 
+    if not all([feedback_id, reviewer_name, reviewer_comment]):
+        return jsonify({"error": "Missing required fields"}), 400
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "INSERT INTO FeedbackComments (feedback_id, reviewer_name, reviewer_comment) VALUES (?, ?, ?)",
+        (feedback_id, reviewer_name, reviewer_comment),
+    )
+    conn.commit()
+    conn.close()
+
+    return jsonify({"message": "Comment added successfully"}), 200
+
+@app.route("/get_feedback_comments/<int:feedback_id>", methods=["GET"])
+def get_feedback_comments(feedback_id):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "SELECT reviewer_name, reviewer_comment FROM FeedbackComments WHERE feedback_id = ?",
+        (feedback_id,),
+    )
+    comments = cursor.fetchall()
+    conn.close()
+
+    comment_list = [
+        {"reviewer": row[0], "reviewer_comment": row[1]} for row in comments
+    ]
+    return jsonify(comment_list)
