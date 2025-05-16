@@ -82,6 +82,7 @@ Versions: Admins can compare the latest versions
 
 Manage Instructions: Users can create or edit the work instructions.
 Clicking edit will redirect to the git repository and clicking creating new instruction will create a new feature branch in git repository.
+Github repo: https://github.com/TaniyaBhadauria/apps-wi
 ![img_11.png](img_11.png)
 ![img_12.png](img_12.png)
 
